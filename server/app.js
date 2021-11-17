@@ -5,7 +5,7 @@ const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const expressHandlebars = require('express-handlebars');
+const { engine } = require('express-handlebars');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const url = require('url');
@@ -62,7 +62,7 @@ app.use(session({
     httpOnly: true,
   },
 }));
-app.engine('handlebars', expressHandlebars({ defaultLayout: 'main' }));
+app.engine('handlebars', engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
 app.disable('x-powered-by');
