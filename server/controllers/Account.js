@@ -88,6 +88,23 @@ const signup = (request, response) => {
   });
 };
 
+const changePassword =(request,response)=>{
+    const req=request;
+    const res=response;
+
+    req.body.username = `${req.body.username}`;
+    req.body.pass = `${req.body.pass}`;
+    req.body.pass2 = `${req.body.pass2}`;
+
+    if (!req.body.username || !req.body.pass || !req.body.pass2) {
+        return res.status(400).json({ error: 'Error. All fields are required' });
+    }
+
+    if (req.body.pass === req.body.pass2) {
+        return res.status(400).json({ error: 'Error. New password is the same as the old password' });
+    }
+};
+
 module.exports = {
   loginPage,
   logout,
