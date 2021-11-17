@@ -8,6 +8,10 @@
   "description": "A Genshin Impact Gacha Simulator",
   "main": "index.js",
   "scripts": {
+    "buildLoginBundle": "babel ./client/login ./client/helper --presets @babel/preset-react --out-file ./hosted/loginBundle.js",
+    "buildAppBundle": "babel ./client/app ./client/helper --presets @babel/preset-react --out-file ./hosted/appBundle.js",
+    "buildInventoryBundle": "babel ./client/inventory ./client/helper --presets @babel/preset-react --out-file ./hosted/inventoryBundle.js",
+    "build": "npm run buildLoginBundle && npm run buildAppBundle && npm run buildInventoryBundle",
     "start": "node ./server/app.js",
     "pretest": "eslint ./server --fix",
     "test": "echo \"Tests complete\""
