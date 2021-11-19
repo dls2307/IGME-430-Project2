@@ -3,6 +3,7 @@ const controllers = require('./controllers');
 const router = (app) => {
   app.get('/getToken', controllers.Account.getToken);
   app.get('/login', controllers.Account.loginPage);
+  app.get('/summon', controllers.Summon.summonPage);
   app.post('/login', controllers.Account.login);
   app.post('/signup', controllers.Account.signup);
   app.post('/changePass', controllers.Account.changePassword);

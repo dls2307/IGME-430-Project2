@@ -62,7 +62,7 @@ app.use(session({
     httpOnly: true,
   },
 }));
-app.engine('handlebars', engine({ defaultLayout: 'main' }));
+app.engine('handlebars', engine({ defaultLayout: '' }));
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
 app.disable('x-powered-by');
