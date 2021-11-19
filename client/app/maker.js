@@ -7,18 +7,21 @@ const BannerWindow = (props) => {
             method="POST"
             className="mainForm"
             >
-            <input id="singleSum" type="button" onClick={handleSummon}>Summon Once</input>
+            <h3>{props.bannerTitle}</h3>
+            <p>{props.bannerDescription}</p>
+            <input id="singleSum" type="button" onClick={singleSummon}>Summon Once</input>
             <input id="tenfoldSum" type="button" onClick={tenfoldSummon}>Summon Ten Times</input>
         </form>
     );
-    
 };
 
 const singleSummon = (e) => { handleSummon(e, 1); };
 const tenfoldSummon = (e) => { handleSummon(e, 10); };
 
+// Tells the server that the user is summoning, and gives them the number of summons to perform.
 const handleSummon = (e, summonCount) => {
-
+    sendAjax('GET', $("#bannerForm").attr("action"), summonCount, redirect);
+    return false;
 }
 
 // Password changing
