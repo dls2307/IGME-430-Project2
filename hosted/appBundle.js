@@ -1,24 +1,22 @@
 "use strict";
 
 // Banner creations
-var BannerWindow = function BannerWindow(props) {
-  return /*#__PURE__*/React.createElement("form", {
-    id: "bannerForm",
-    name: "bannerForm",
-    action: "/summon",
-    method: "POST",
-    className: "mainForm"
-  }, /*#__PURE__*/React.createElement("h3", null, props.bannerTitle), /*#__PURE__*/React.createElement("p", null, props.bannerDescription), /*#__PURE__*/React.createElement("input", {
-    id: "singleSum",
-    type: "button",
-    onClick: singleSummon
-  }, "Summon Once"), /*#__PURE__*/React.createElement("input", {
-    id: "tenfoldSum",
-    type: "button",
-    onClick: tenfoldSummon
-  }, "Summon Ten Times"));
-};
 
+/*const BannerWindow = (props) => {
+    return (
+        <form id="bannerForm"
+            name="bannerForm"
+            action="/summon"
+            method="POST"
+            className="mainForm"
+            >
+            <h3>{props.bannerTitle}</h3>
+            <p>{props.bannerDescription}</p>
+            <input id="singleSum" type="button" onClick={singleSummon}>Summon Once</input>
+            <input id="tenfoldSum" type="button" onClick={tenfoldSummon}>Summon Ten Times</input>
+        </form>
+    );
+};*/
 var singleSummon = function singleSummon(e) {
   handleSummon(e, 1);
 };
@@ -31,6 +29,33 @@ var tenfoldSummon = function tenfoldSummon(e) {
 var handleSummon = function handleSummon(e, summonCount) {
   sendAjax('GET', $("#bannerForm").attr("action"), summonCount, redirect);
   return false;
+};
+
+var BannerWindow = function BannerWindow(props) {
+  return /*#__PURE__*/React.createElement("form", {
+    id: "bannerForm",
+    name: "bannerForm",
+    onSubmit: singleSummon,
+    action: "/pullItem",
+    method: "GET",
+    className: "mainForm"
+  }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Banner Name"
+  }, "Amber Banner"), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "formSubmit",
+    type: "submit",
+    value: "Pull"
+  }));
+};
+
+var createBannerWindow = function createBannerWindow(csrf) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(BannerWindow, {
+    csrf: csrf
+  }), document.querySelector("#content"));
 }; // Password changing
 
 
@@ -104,6 +129,7 @@ var setup = function setup(csrf) {
     createPassChangeWindow(csrf);
     return false;
   });
+  createBannerWindow(csrf);
 };
 
 var getToken = function getToken() {

@@ -1,5 +1,5 @@
 // Banner creations
-const BannerWindow = (props) => {
+/*const BannerWindow = (props) => {
     return (
         <form id="bannerForm"
             name="bannerForm"
@@ -13,7 +13,7 @@ const BannerWindow = (props) => {
             <input id="tenfoldSum" type="button" onClick={tenfoldSummon}>Summon Ten Times</input>
         </form>
     );
-};
+};*/
 
 const singleSummon = (e) => { handleSummon(e, 1); };
 const tenfoldSummon = (e) => { handleSummon(e, 10); };
@@ -23,6 +23,29 @@ const handleSummon = (e, summonCount) => {
     sendAjax('GET', $("#bannerForm").attr("action"), summonCount, redirect);
     return false;
 }
+
+const BannerWindow = (props) =>{
+    return (
+        <form id="bannerForm" 
+            name="bannerForm"
+            onSubmit={singleSummon}
+            action="/pullItem"
+            method="GET"
+            className="mainForm"
+            >
+            <label htmlFor="Banner Name">Amber Banner</label>
+            <input type="hidden" name="_csrf" value={props.csrf}/>
+            <input className="formSubmit" type="submit" value="Pull" />
+        </form>
+    );
+};
+
+const createBannerWindow = (csrf)=>{
+    ReactDOM.render(
+        <BannerWindow csrf={csrf} />,
+        document.querySelector("#content")
+    );
+};
 
 // Password changing
 const handlePassChange = (e) => {
@@ -78,6 +101,8 @@ const setup = (csrf) => {
         createPassChangeWindow(csrf);
         return false;
     });
+
+    createBannerWindow(csrf);
 };
 
 const getToken = () => {
