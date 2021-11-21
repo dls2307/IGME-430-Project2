@@ -22,7 +22,7 @@ const tenfoldSummon = (e) => { handleSummon(e, 10); };
 const handleSummon = (e, summonCount) => {
     sendAjax('GET', $("#bannerForm").attr("action"), summonCount, redirect);
     return false;
-}
+};
 
 const BannerWindow = (props) =>{
     return (
@@ -94,6 +94,7 @@ const createPassChangeWindow = (csrf) => {
 };
 
 const setup = (csrf) => {
+    console.log(csrf);
     const changePassButton = document.querySelector("#changePassButton");
 
     changePassButton.addEventListener("click", (e) =>{
@@ -101,6 +102,7 @@ const setup = (csrf) => {
         createPassChangeWindow(csrf);
         return false;
     });
+    
 
     createBannerWindow(csrf);
 };
