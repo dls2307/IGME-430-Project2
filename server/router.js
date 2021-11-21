@@ -8,7 +8,7 @@ const router = (app) => {
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
   app.get('/pullItem', controllers.Item.pullItem);
-  app.get('/summon', mid.requiresLogin, controllers.Summon.summonPage);
+  app.get('/summon', mid.requiresLogin, controllers.Item.bannerPage);
   app.get('/inventory', mid.requiresLogin, controllers.Item.inventoryPage);
   /* app.post('/changePass', mid.requiresLogin, controllers.Account.changePassword); */
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
