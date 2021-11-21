@@ -78,8 +78,6 @@ const setup = (csrf) => {
         createPassChangeWindow(csrf);
         return false;
     });
-
-    createLoginWindow(csrf); //default view
 };
 
 const getToken = () => {

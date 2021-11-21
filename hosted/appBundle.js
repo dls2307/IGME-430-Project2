@@ -1,15 +1,17 @@
+"use strict";
+
 // Banner creations
-const BannerWindow = props => {
+var BannerWindow = function BannerWindow(props) {
   return /*#__PURE__*/React.createElement("form", {
     id: "bannerForm",
     name: "bannerForm",
     action: "/summon",
     method: "POST",
     className: "mainForm"
-  }, /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("h3", null, props.bannerTitle), /*#__PURE__*/React.createElement("p", null, props.bannerDescription), /*#__PURE__*/React.createElement("input", {
     id: "singleSum",
     type: "button",
-    onClick: handleSummon
+    onClick: singleSummon
   }, "Summon Once"), /*#__PURE__*/React.createElement("input", {
     id: "tenfoldSum",
     type: "button",
@@ -17,18 +19,22 @@ const BannerWindow = props => {
   }, "Summon Ten Times"));
 };
 
-const singleSummon = e => {
+var singleSummon = function singleSummon(e) {
   handleSummon(e, 1);
 };
 
-const tenfoldSummon = e => {
+var tenfoldSummon = function tenfoldSummon(e) {
   handleSummon(e, 10);
-};
-
-const handleSummon = (e, summonCount) => {}; // Password changing
+}; // Tells the server that the user is summoning, and gives them the number of summons to perform.
 
 
-const handlePassChange = e => {
+var handleSummon = function handleSummon(e, summonCount) {
+  sendAjax('GET', $("#bannerForm").attr("action"), summonCount, redirect);
+  return false;
+}; // Password changing
+
+
+var handlePassChange = function handlePassChange(e) {
   e.preventDefault();
 
   if ($("#oldPass").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
@@ -45,7 +51,7 @@ const handlePassChange = e => {
   return false;
 };
 
-const PassChangeWindow = props => {
+var PassChangeWindow = function PassChangeWindow(props) {
   return /*#__PURE__*/React.createElement("form", {
     id: "passChangeForm",
     name: "passChangeForm",
@@ -85,24 +91,23 @@ const PassChangeWindow = props => {
   }));
 };
 
-const createPassChangeWindow = csrf => {
+var createPassChangeWindow = function createPassChangeWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(PassChangeWindow, {
     csrf: csrf
   }), docuemnt.querySelector("#content"));
 };
 
-const setup = csrf => {
-  const changePassButton = document.querySelector("#changePassButton");
-  changePassButton.addEventListener("click", e => {
+var setup = function setup(csrf) {
+  var changePassButton = document.querySelector("#changePassButton");
+  changePassButton.addEventListener("click", function (e) {
     e.preventDefault();
     createPassChangeWindow(csrf);
     return false;
   });
-  createLoginWindow(csrf); //default view
 };
 
-const getToken = () => {
-  sendAjax('GET', '/getToken', null, result => {
+var getToken = function getToken() {
+  sendAjax('GET', '/getToken', null, function (result) {
     setup(result.csrfToken);
   });
 };
@@ -110,18 +115,20 @@ const getToken = () => {
 $(document).ready(function () {
   getToken();
 });
-const handleError = message => {
+"use strict";
+
+var handleError = function handleError(message) {
   $("#errorHandling").text(message);
 };
 
-const redirect = response => {
+var redirect = function redirect(response) {
   $("#domoMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
 };
 
-const sendAjax = (type, action, data, success) => {
+var sendAjax = function sendAjax(type, action, data, success) {
   $.ajax({
     cashe: false,
     type: type,
@@ -129,7 +136,7 @@ const sendAjax = (type, action, data, success) => {
     data: data,
     dataType: "json",
     success: success,
-    error: function (xhr, status, error) {
+    error: function error(xhr, status, _error) {
       var messageObj = JSON.parse(xhr.responseText);
       handleError(messageObj.error);
     }

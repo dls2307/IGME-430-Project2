@@ -4,6 +4,7 @@ const models = require('../models');
 const { Item } = models;
 
 const bannerPage = (req, res) => res.render('app', { csrfToken: req.csrfToken() });
+const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csrfToken() });
 
 const pullItem = async (req, res) => {
   const genshinItem = genshin.characters('Amber');
@@ -51,4 +52,5 @@ module.exports = {
   pullItem,
   getItems,
   bannerPage,
+  inventoryPage,
 };
