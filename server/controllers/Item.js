@@ -15,13 +15,14 @@ const resultsAppPage = (req, res) => {
   }
 
   res.render('app', { csrfToken: req.csrfToken(), items: lastItems });
+  return false;
 };
 
 const pullItem = async (req, res) => {
   // TODO: MAKE THIS RANDOMIZED FOR CHARACTERS/WEAPONS, NOT JUST RETURN AMBER
   const genshinItem = genshin.characters('Amber');
   lastItems = [];
-  
+
   const itemData = {
     name: genshinItem.name,
     quantity: 1,
