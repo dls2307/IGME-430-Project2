@@ -32,13 +32,14 @@ var handleSummon = function handleSummon(e, summonCount) {
 };
 
 var BannerWindow = function BannerWindow(props) {
-  return /*#__PURE__*/React.createElement("form", {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "card border border-primary bannerCard"
+  }, /*#__PURE__*/React.createElement("form", {
     id: "bannerForm",
     name: "bannerForm",
     onSubmit: singleSummon,
     action: "/pullItem",
-    method: "GET",
-    className: "mainForm"
+    method: "GET"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "Banner Name"
   }, "Amber Banner"), /*#__PURE__*/React.createElement("input", {
@@ -46,10 +47,10 @@ var BannerWindow = function BannerWindow(props) {
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "formSubmit",
+    className: "btn btn-primary",
     type: "submit",
     value: "Pull"
-  }));
+  })));
 };
 
 var createBannerWindow = function createBannerWindow(csrf) {

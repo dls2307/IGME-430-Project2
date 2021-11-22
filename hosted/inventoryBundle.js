@@ -14,21 +14,21 @@ var CharacterList = function CharacterList(props) {
   var characterNodes = props.characters.map(function (character) {
     return /*#__PURE__*/React.createElement("div", {
       key: character._id,
-      className: "character"
+      className: "card w-10 character"
     }, /*#__PURE__*/React.createElement("img", {
       src: "/assets/img/domoface.jpeg",
       alt: "character picture",
       className: "characterImage"
     }), /*#__PURE__*/React.createElement("h3", {
-      className: "characterName"
+      className: "card-title characterName"
     }, " Name: ", character.name, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "characterRarity"
+      className: "card-text characterRarity"
     }, " Rarity: ", character.rarity, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "characterElement"
+      className: "card-text characterElement"
     }, "Element: ", character.element, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "characterWeapon"
+      className: "card-text characterWeapon"
     }, "Weapon Type: ", character.weapon, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "characterQuantity"
+      className: "card-text characterQuantity"
     }, "Quantity: ", character.quantity));
   });
   return /*#__PURE__*/React.createElement("div", {
@@ -50,19 +50,19 @@ var WeaponList = function WeaponList(props) {
   var weaponsNodes = props.weapons.map(function (weapon) {
     return /*#__PURE__*/React.createElement("div", {
       key: weapon._id,
-      className: "weapon"
+      className: "card w-10 weapon"
     }, /*#__PURE__*/React.createElement("img", {
       src: "/assets/img/domoface.jpeg",
       alt: "weapon picture",
       className: "weaponImage"
     }), /*#__PURE__*/React.createElement("h3", {
-      className: "weaponName"
+      className: "card-title weaponName"
     }, " Name: ", weapon.name, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "weaponRarity"
+      className: "card-text weaponRarity"
     }, " Rarity: ", weapon.rarity, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "weaponType"
+      className: "card-text weaponType"
     }, "Weapon Type: ", weapon.type, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "weaponQuantity"
+      className: "card-text weaponQuantity"
     }, "Quantity: ", weapon.quantity));
   });
   return /*#__PURE__*/React.createElement("div", {

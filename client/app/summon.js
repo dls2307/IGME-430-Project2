@@ -26,17 +26,18 @@ const handleSummon = (e, summonCount) => {
 
 const BannerWindow = (props) =>{
     return (
-        <form id="bannerForm" 
-            name="bannerForm"
-            onSubmit={singleSummon}
-            action="/pullItem"
-            method="GET"
-            className="mainForm"
-            >
-            <label htmlFor="Banner Name">Amber Banner</label>
-            <input type="hidden" name="_csrf" value={props.csrf}/>
-            <input className="formSubmit" type="submit" value="Pull" />
-        </form>
+        <div className="card border border-primary bannerCard">
+             <form id="bannerForm" 
+                name="bannerForm"
+                onSubmit={singleSummon}
+                action="/pullItem"
+                method="GET"
+                >
+                <label htmlFor="Banner Name">Amber Banner</label>
+                <input type="hidden" name="_csrf" value={props.csrf}/>
+                <input className="btn btn-primary" type="submit" value="Pull" />
+            </form>
+        </div>
     );
 };
 
