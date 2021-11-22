@@ -16,7 +16,7 @@ var CharacterList = function CharacterList(props) {
       key: character._id,
       className: "card w-10 character"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/domoface.jpeg",
+      src: "/assets/img/test.jpeg",
       alt: "character picture",
       className: "characterImage"
     }), /*#__PURE__*/React.createElement("h3", {
@@ -52,7 +52,7 @@ var WeaponList = function WeaponList(props) {
       key: weapon._id,
       className: "card w-10 weapon"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/domoface.jpeg",
+      src: "/assets/img/test.jpeg",
       alt: "weapon picture",
       className: "weaponImage"
     }), /*#__PURE__*/React.createElement("h3", {
@@ -103,7 +103,7 @@ var handleError = function handleError(message) {
 };
 
 var redirect = function redirect(response) {
-  $("#domoMessage").animate({
+  $("#errorMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
