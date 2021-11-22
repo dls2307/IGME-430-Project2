@@ -9,7 +9,6 @@ const bannerPage = (req, res) => res.render('app', { csrfToken: req.csrfToken() 
 const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csrfToken() });
 
 const resultsAppPage = (req, res) => {
-  console.log("Here!");
   if (lastItems.length === 0) {
     res.render('app', { csrfToken: req.csrfToken() });
     return false;
@@ -41,7 +40,7 @@ const pullItem = async (req, res) => {
   const itemPromise = newItem.save();
 
   itemPromise.then(() => {
-    console.log("Here first!");
+    debugger;
     res.json({ redirect: '/results' });
   });
 
