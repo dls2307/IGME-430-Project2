@@ -124,7 +124,6 @@ var createPassChangeWindow = function createPassChangeWindow(csrf) {
 };
 
 var setup = function setup(csrf) {
-  console.log(csrf);
   var changePassButton = document.querySelector("#changePassButton");
   changePassButton.addEventListener("click", function (e) {
     e.preventDefault();
@@ -150,9 +149,6 @@ var handleError = function handleError(message) {
 };
 
 var redirect = function redirect(response) {
-  $("#errorMessage").animate({
-    width: 'hide'
-  }, 350);
   window.location = response.redirect;
 };
 

@@ -9,6 +9,7 @@ const bannerPage = (req, res) => res.render('app', { csrfToken: req.csrfToken() 
 const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csrfToken() });
 
 const resultsAppPage = (req, res) => {
+  console.log("Here!");
   if (lastItems.length === 0) {
     res.render('app', { csrfToken: req.csrfToken() });
     return false;
@@ -20,11 +21,14 @@ const resultsAppPage = (req, res) => {
 
 const pullItem = async (req, res) => {
   // TODO: MAKE THIS RANDOMIZED FOR CHARACTERS/WEAPONS, NOT JUST RETURN AMBER
-  const genshinItem = genshin.characters('Amber');
+  const genshinItem = genshin.characters('Jean');
   lastItems = [];
 
   const itemData = {
     name: genshinItem.name,
+    rarity: genshinItem.rarity,
+    element: genshinItem.element,
+    weaponType: genshinItem.weapontype,
     quantity: 1,
     type: 0,
     owner: req.session.account._id,
@@ -36,7 +40,10 @@ const pullItem = async (req, res) => {
 
   const itemPromise = newItem.save();
 
-  itemPromise.then(() => res.json({ redirect: '/results' }));
+  itemPromise.then(() => {
+    console.log("Here first!");
+    res.json({ redirect: '/results' });
+  });
 
   itemPromise.catch(async (err) => {
     console.log(err);

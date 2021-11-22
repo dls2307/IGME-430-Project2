@@ -16,7 +16,7 @@ var CharacterList = function CharacterList(props) {
       key: character._id,
       className: "card w-10 character"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/test.jpeg",
+      src: "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ambor.png",
       alt: "character picture",
       className: "characterImage"
     }), /*#__PURE__*/React.createElement("h3", {
@@ -27,7 +27,7 @@ var CharacterList = function CharacterList(props) {
       className: "card-text characterElement"
     }, "Element: ", character.element, " "), /*#__PURE__*/React.createElement("h3", {
       className: "card-text characterWeapon"
-    }, "Weapon Type: ", character.weapon, " "), /*#__PURE__*/React.createElement("h3", {
+    }, "Weapon Type: ", character.weaponType, " "), /*#__PURE__*/React.createElement("h3", {
       className: "card-text characterQuantity"
     }, "Quantity: ", character.quantity));
   });
@@ -52,7 +52,7 @@ var WeaponList = function WeaponList(props) {
       key: weapon._id,
       className: "card w-10 weapon"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/test.jpeg",
+      src: "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ambor.png",
       alt: "weapon picture",
       className: "weaponImage"
     }), /*#__PURE__*/React.createElement("h3", {
@@ -61,7 +61,7 @@ var WeaponList = function WeaponList(props) {
       className: "card-text weaponRarity"
     }, " Rarity: ", weapon.rarity, " "), /*#__PURE__*/React.createElement("h3", {
       className: "card-text weaponType"
-    }, "Weapon Type: ", weapon.type, " "), /*#__PURE__*/React.createElement("h3", {
+    }, "Weapon Type: ", weapon.weaponType, " "), /*#__PURE__*/React.createElement("h3", {
       className: "card-text weaponQuantity"
     }, "Quantity: ", weapon.quantity));
   });
@@ -103,9 +103,6 @@ var handleError = function handleError(message) {
 };
 
 var redirect = function redirect(response) {
-  $("#errorMessage").animate({
-    width: 'hide'
-  }, 350);
   window.location = response.redirect;
 };
 

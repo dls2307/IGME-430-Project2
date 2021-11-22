@@ -11,11 +11,11 @@ const CharacterList = function(props) {
     const characterNodes = props.characters.map(function(character) {
         return (
             <div key={character._id} className="card w-10 character">
-                <img src="/assets/img/test.jpeg" alt="character picture" className="characterImage" />
+                <img src="https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ambor.png" alt="character picture" className="characterImage" />
                 <h3 className="card-title characterName"> Name: {character.name} </h3>
                 <h3 className="card-text characterRarity"> Rarity: {character.rarity} </h3>
                 <h3 className="card-text characterElement">Element: {character.element} </h3>
-                <h3 className="card-text characterWeapon">Weapon Type: {character.weapon} </h3>
+                <h3 className="card-text characterWeapon">Weapon Type: {character.weaponType} </h3>
                 <h3 className="card-text characterQuantity">Quantity: {character.quantity}</h3>
             </div>
         );
@@ -41,10 +41,10 @@ const WeaponList = function(props) {
     const weaponsNodes = props.weapons.map(function(weapon) {
         return (
             <div key={weapon._id} className="card w-10 weapon">
-                <img src="/assets/img/test.jpeg" alt="weapon picture" className="weaponImage" />
+                <img src="https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ambor.png" alt="weapon picture" className="weaponImage" />
                 <h3 className="card-title weaponName"> Name: {weapon.name} </h3>
                 <h3 className="card-text weaponRarity"> Rarity: {weapon.rarity} </h3>
-                <h3 className="card-text weaponType">Weapon Type: {weapon.type} </h3>
+                <h3 className="card-text weaponType">Weapon Type: {weapon.weaponType} </h3>
                 <h3 className="card-text weaponQuantity">Quantity: {weapon.quantity}</h3>
             </div>
         );
