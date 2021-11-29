@@ -39,6 +39,10 @@ const ItemSchema = new mongoose.Schema({
     required: false,
     trim: true,
   },
+  image: {
+    type: String,
+    required: true,
+  },
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
@@ -56,6 +60,7 @@ ItemSchema.statics.toAPI = (doc) => ({
   weaponType: doc.weaponType,
   element: doc.element,
   quantity: doc.quantity,
+  image: doc.image,
   type: doc.type,
 });
 
@@ -64,7 +69,7 @@ ItemSchema.statics.findByOwner = (ownerID, callback) => {
     owner: convertId(ownerID),
   };
 
-  return ItemModel.find(search).select('name rarity weaponType element quantity type').lean().exec(callback);
+  return ItemModel.find(search).select('name rarity weaponType element image quantity type').lean().exec(callback);
 };
 
 ItemModel = mongoose.model('Item', ItemSchema);

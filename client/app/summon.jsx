@@ -15,6 +15,32 @@
     );
 };*/
 
+const ResultsWindow = (props) => {
+    const resultNodes = props.items.map(function(item) {
+        return (
+            <div key={character._id} className="card w-10 character">
+                <img src={character.image} alt="character picture" className="characterImage" />
+                <h3 className="card-title characterName"> Name: {character.name} </h3>
+                <h3 className="card-text characterRarity"> Rarity: {character.rarity} </h3>
+                <h3 className="card-text characterWeapon">Weapon Type: {character.weaponType} </h3>
+            </div>
+        );
+    });
+
+    return (
+        <div className="resultsList">
+            {resultsNodes}
+        </div>
+    );
+};
+
+const createResultsWindow = (results) => {
+    ReactDOM.render(
+        <ResultsWindow results/>,
+        document.querySelector("#content")
+    );
+};
+
 const singleSummon = (e) => { handleSummon(e, 1); };
 const tenfoldSummon = (e) => { handleSummon(e, 10); };
 
@@ -95,22 +121,29 @@ const createPassChangeWindow = (csrf) => {
     );
 };
 
-const setup = (csrf) => {
+const setup = (result) => {
     const changePassButton = document.querySelector("#changePassButton");
 
     changePassButton.addEventListener("click", (e) =>{
         e.preventDefault();
-        createPassChangeWindow(csrf);
+        createPassChangeWindow(result.csrf);
         return false;
     });
+
+    if (result.justSummoned === true) {
+        reateResultsWindow(result);
+    }
+    else {
+        createBannerWindow(result.csrf);
+    }
     
 
-    createBannerWindow(csrf);
+    
 };
 
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
-        setup(result.csrfToken);
+        setup(result);
     });
 };
 

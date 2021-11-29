@@ -16,6 +16,7 @@ const pullItem = async (req, res) => {
     element: genshinItem.element,
     weaponType: genshinItem.weapontype,
     quantity: 1,
+    image: genshinItem.images.icon,
     type: 0,
     owner: req.session.account._id,
   };

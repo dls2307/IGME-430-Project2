@@ -17,6 +17,10 @@
         </form>
     );
 };*/
+var createResultsWindow = function createResultsWindow(results) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(ResultsWindow, null), document.querySelector("#content"));
+};
+
 var singleSummon = function singleSummon(e) {
   handleSummon(e, 1);
 };
@@ -33,6 +37,7 @@ var handleSummon = function handleSummon(e, summonCount) {
 };
 
 var BannerWindow = function BannerWindow(props) {
+  console.log(props);
   return /*#__PURE__*/React.createElement("div", {
     className: "card border border-primary bannerCard"
   }, /*#__PURE__*/React.createElement("form", {
@@ -124,19 +129,23 @@ var createPassChangeWindow = function createPassChangeWindow(csrf) {
   }), docuemnt.querySelector("#content"));
 };
 
-var setup = function setup(csrf) {
+var setup = function setup(result) {
   var changePassButton = document.querySelector("#changePassButton");
   changePassButton.addEventListener("click", function (e) {
     e.preventDefault();
-    createPassChangeWindow(csrf);
+    createPassChangeWindow(result.csrf);
     return false;
   });
-  createBannerWindow(csrf);
+
+  if (result.justSummoned === true) {//reateResultsWindow(result);
+  } else {
+    createBannerWindow(result.csrf);
+  }
 };
 
 var getToken = function getToken() {
   sendAjax('GET', '/getToken', null, function (result) {
-    setup(result.csrfToken);
+    setup(result);
   });
 };
 

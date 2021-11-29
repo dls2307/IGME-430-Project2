@@ -1,5 +1,4 @@
 const CharacterList = function(props) {
-    console.log(props);
     if (props.characters.length === 0) {
         return (
             <div className="characterList">
@@ -11,7 +10,7 @@ const CharacterList = function(props) {
     const characterNodes = props.characters.map(function(character) {
         return (
             <div key={character._id} className="card w-10 character">
-                <img src="https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ambor.png" alt="character picture" className="characterImage" />
+                <img src={character.image} alt="character picture" className="characterImage" />
                 <h3 className="card-title characterName"> Name: {character.name} </h3>
                 <h3 className="card-text characterRarity"> Rarity: {character.rarity} </h3>
                 <h3 className="card-text characterElement">Element: {character.element} </h3>

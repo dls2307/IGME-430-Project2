@@ -16,7 +16,7 @@ var CharacterList = function CharacterList(props) {
       key: character._id,
       className: "card w-10 character"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ambor.png",
+      src: character.image,
       alt: "character picture",
       className: "characterImage"
     }), /*#__PURE__*/React.createElement("h3", {
