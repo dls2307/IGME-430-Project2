@@ -40,7 +40,6 @@ const pullItem = async (req, res) => {
   const itemPromise = newItem.save();
 
   itemPromise.then(() => {
-    debugger;
     res.json({ redirect: '/results' });
   });
 
