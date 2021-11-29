@@ -7,6 +7,5 @@ const summonPage = (req, res) => {
 };
 
 module.exports = {
-    summonPage
-  };
-  
+  summonPage,
+};

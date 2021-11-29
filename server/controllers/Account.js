@@ -120,5 +120,4 @@ module.exports = {
   login,
   signup,
   getToken,
-  changePassword,
 };
