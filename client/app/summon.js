@@ -20,6 +20,7 @@ const tenfoldSummon = (e) => { handleSummon(e, 10); };
 
 // Tells the server that the user is summoning, and gives them the number of summons to perform.
 const handleSummon = (e, summonCount) => {
+    e.preventDefault();
     sendAjax('GET', $("#bannerForm").attr("action"), summonCount, redirect);
     return false;
 };

@@ -27,6 +27,7 @@ var tenfoldSummon = function tenfoldSummon(e) {
 
 
 var handleSummon = function handleSummon(e, summonCount) {
+  e.preventDefault();
   sendAjax('GET', $("#bannerForm").attr("action"), summonCount, redirect);
   return false;
 };

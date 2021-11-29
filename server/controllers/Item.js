@@ -3,25 +3,12 @@ const models = require('../models');
 
 const { Item } = models;
 
-let lastItems = [];
-
 const bannerPage = (req, res) => res.render('app', { csrfToken: req.csrfToken() });
 const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csrfToken() });
-
-const resultsAppPage = (req, res) => {
-  if (lastItems.length === 0) {
-    res.render('app', { csrfToken: req.csrfToken() });
-    return false;
-  }
-
-  res.render('app', { csrfToken: req.csrfToken(), items: lastItems });
-  return false;
-};
 
 const pullItem = async (req, res) => {
   // TODO: MAKE THIS RANDOMIZED FOR CHARACTERS/WEAPONS, NOT JUST RETURN AMBER
   const genshinItem = genshin.characters('Jean');
-  lastItems = [];
 
   const itemData = {
     name: genshinItem.name,
@@ -43,24 +30,22 @@ const pullItem = async (req, res) => {
       return res.status(400).json({ error: 'An error occurred' });
     }
     if (!docs) {
-      lastItems.push(itemData);
-
       const newItem = new Item.ItemModel(itemData);
 
       const itemPromise = newItem.save();
 
       itemPromise.then(() => {
-        res.json({ redirect: '/results' });
+        res.json({ redirect: '/' });
       });
 
-      itemPromise.catch(async (newerr) => {
-        console.log(newerr);
+      itemPromise.catch(async (othererr) => {
+        console.log(othererr);
         return res.status(400).json({ error: 'An error occurred' });
       });
 
       return itemPromise;
     }
-    return itemData;
+    return res.status(200).json({ redirect: '/' });
   });
 };
 
@@ -83,5 +68,4 @@ module.exports = {
   getItems,
   bannerPage,
   inventoryPage,
-  resultsAppPage,
 };
