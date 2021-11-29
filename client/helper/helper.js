@@ -3,7 +3,6 @@ const handleError = (message) => {
 };
 
 const redirect = (response) => {
-    $("#domoMessage").animate({width:'hide'}, 350);
     window.location = response.redirect;
 };
 

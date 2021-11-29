@@ -1,11 +1,10 @@
-const handleLogin = e => {
+"use strict";
+
+var handleLogin = function handleLogin(e) {
   e.preventDefault();
-  $("#domoMessage").animate({
-    width: 'hide'
-  }, 350);
 
   if ($("#user").val() == '' || $("#pass").val() == '') {
-    handleError("RAWR! Username or password is empty");
+    handleError("Username or password is empty");
     return false;
   }
 
@@ -14,19 +13,16 @@ const handleLogin = e => {
   return false;
 };
 
-const handleSignup = e => {
+var handleSignup = function handleSignup(e) {
   e.preventDefault();
-  $("#domoMessage").animate({
-    width: 'hide'
-  }, 350);
 
   if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
-    handleError("RAWR! All fields are required");
+    handleError("All fields are required");
     return false;
   }
 
   if ($("#pass").val() !== $("#pass2").val()) {
-    handleError("RAWR! Passwords do not match");
+    handleError("Passwords do not match");
     return false;
   }
 
@@ -34,7 +30,7 @@ const handleSignup = e => {
   return false;
 };
 
-const LoginWindow = props => {
+var LoginWindow = function LoginWindow(props) {
   return /*#__PURE__*/React.createElement("form", {
     id: "loginForm",
     name: "LoginForm",
@@ -67,7 +63,7 @@ const LoginWindow = props => {
   }));
 };
 
-const SignupWindow = props => {
+var SignupWindow = function SignupWindow(props) {
   return /*#__PURE__*/React.createElement("form", {
     id: "signupForm",
     name: "signupForm",
@@ -107,27 +103,27 @@ const SignupWindow = props => {
   }));
 };
 
-const createLoginWindow = csrf => {
+var createLoginWindow = function createLoginWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(LoginWindow, {
     csrf: csrf
   }), document.querySelector("#content"));
 };
 
-const createSignupWindow = csrf => {
+var createSignupWindow = function createSignupWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(SignupWindow, {
     csrf: csrf
   }), document.querySelector("#content"));
 };
 
-const setup = csrf => {
-  const loginButton = document.querySelector("#loginButton");
-  const signupButton = document.querySelector("#signupButton");
-  signupButton.addEventListener("click", e => {
+var setup = function setup(csrf) {
+  var loginButton = document.querySelector("#loginButton");
+  var signupButton = document.querySelector("#signupButton");
+  signupButton.addEventListener("click", function (e) {
     e.preventDefault();
     createSignupWindow(csrf);
     return false;
   });
-  loginButton.addEventListener("click", e => {
+  loginButton.addEventListener("click", function (e) {
     e.preventDefault();
     createLoginWindow(csrf);
     return false;
@@ -135,8 +131,8 @@ const setup = csrf => {
   createLoginWindow(csrf); //default view
 };
 
-const getToken = () => {
-  sendAjax('GET', '/getToken', null, result => {
+var getToken = function getToken() {
+  sendAjax('GET', '/getToken', null, function (result) {
     setup(result.csrfToken);
   });
 };
@@ -144,18 +140,17 @@ const getToken = () => {
 $(document).ready(function () {
   getToken();
 });
-const handleError = message => {
+"use strict";
+
+var handleError = function handleError(message) {
   $("#errorHandling").text(message);
 };
 
-const redirect = response => {
-  $("#domoMessage").animate({
-    width: 'hide'
-  }, 350);
+var redirect = function redirect(response) {
   window.location = response.redirect;
 };
 
-const sendAjax = (type, action, data, success) => {
+var sendAjax = function sendAjax(type, action, data, success) {
   $.ajax({
     cashe: false,
     type: type,
@@ -163,7 +158,7 @@ const sendAjax = (type, action, data, success) => {
     data: data,
     dataType: "json",
     success: success,
-    error: function (xhr, status, error) {
+    error: function error(xhr, status, _error) {
       var messageObj = JSON.parse(xhr.responseText);
       handleError(messageObj.error);
     }

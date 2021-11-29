@@ -3,22 +3,46 @@ const models = require('../models');
 
 const { Item } = models;
 
+let lastItems = [];
+
 const bannerPage = (req, res) => res.render('app', { csrfToken: req.csrfToken() });
+const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csrfToken() });
+
+const resultsAppPage = (req, res) => {
+  if (lastItems.length === 0) {
+    res.render('app', { csrfToken: req.csrfToken() });
+    return false;
+  }
+
+  res.render('app', { csrfToken: req.csrfToken(), items: lastItems });
+  return false;
+};
 
 const pullItem = async (req, res) => {
-  const genshinItem = genshin.characters('Amber');
+  // TODO: MAKE THIS RANDOMIZED FOR CHARACTERS/WEAPONS, NOT JUST RETURN AMBER
+  const genshinItem = genshin.characters('Jean');
+  lastItems = [];
+
   const itemData = {
     name: genshinItem.name,
+    rarity: genshinItem.rarity,
+    element: genshinItem.element,
+    weaponType: genshinItem.weapontype,
     quantity: 1,
     type: 0,
     owner: req.session.account._id,
   };
 
+  lastItems.push(itemData);
+
   const newItem = new Item.ItemModel(itemData);
 
   const itemPromise = newItem.save();
 
-  itemPromise.then(() => res.json({ genshinItem }));
+  itemPromise.then(() => {
+    debugger;
+    res.json({ redirect: '/results' });
+  });
 
   itemPromise.catch(async (err) => {
     console.log(err);
@@ -51,4 +75,6 @@ module.exports = {
   pullItem,
   getItems,
   bannerPage,
+  inventoryPage,
+  resultsAppPage,
 };

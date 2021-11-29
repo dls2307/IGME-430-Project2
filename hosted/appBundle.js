@@ -1,34 +1,66 @@
-// Banner creations
-const BannerWindow = props => {
-  return /*#__PURE__*/React.createElement("form", {
-    id: "bannerForm",
-    name: "bannerForm",
-    action: "/summon",
-    method: "POST",
-    className: "mainForm"
-  }, /*#__PURE__*/React.createElement("input", {
-    id: "singleSum",
-    type: "button",
-    onClick: handleSummon
-  }, "Summon Once"), /*#__PURE__*/React.createElement("input", {
-    id: "tenfoldSum",
-    type: "button",
-    onClick: tenfoldSummon
-  }, "Summon Ten Times"));
-};
+"use strict";
 
-const singleSummon = e => {
+// Banner creations
+
+/*const BannerWindow = (props) => {
+    return (
+        <form id="bannerForm"
+            name="bannerForm"
+            action="/summon"
+            method="POST"
+            className="mainForm"
+            >
+            <h3>{props.bannerTitle}</h3>
+            <p>{props.bannerDescription}</p>
+            <input id="singleSum" type="button" onClick={singleSummon}>Summon Once</input>
+            <input id="tenfoldSum" type="button" onClick={tenfoldSummon}>Summon Ten Times</input>
+        </form>
+    );
+};*/
+var singleSummon = function singleSummon(e) {
   handleSummon(e, 1);
 };
 
-const tenfoldSummon = e => {
+var tenfoldSummon = function tenfoldSummon(e) {
   handleSummon(e, 10);
+}; // Tells the server that the user is summoning, and gives them the number of summons to perform.
+
+
+var handleSummon = function handleSummon(e, summonCount) {
+  sendAjax('GET', $("#bannerForm").attr("action"), summonCount, redirect);
+  return false;
 };
 
-const handleSummon = (e, summonCount) => {}; // Password changing
+var BannerWindow = function BannerWindow(props) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "card border border-primary bannerCard"
+  }, /*#__PURE__*/React.createElement("form", {
+    id: "bannerForm",
+    name: "bannerForm",
+    onSubmit: singleSummon,
+    action: "/pullItem",
+    method: "GET"
+  }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Banner Name"
+  }, "Amber Banner"), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "btn btn-primary",
+    type: "submit",
+    value: "Pull"
+  })));
+};
+
+var createBannerWindow = function createBannerWindow(csrf) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(BannerWindow, {
+    csrf: csrf
+  }), document.querySelector("#content"));
+}; // Password changing
 
 
-const handlePassChange = e => {
+var handlePassChange = function handlePassChange(e) {
   e.preventDefault();
 
   if ($("#oldPass").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
@@ -45,7 +77,7 @@ const handlePassChange = e => {
   return false;
 };
 
-const PassChangeWindow = props => {
+var PassChangeWindow = function PassChangeWindow(props) {
   return /*#__PURE__*/React.createElement("form", {
     id: "passChangeForm",
     name: "passChangeForm",
@@ -85,24 +117,24 @@ const PassChangeWindow = props => {
   }));
 };
 
-const createPassChangeWindow = csrf => {
+var createPassChangeWindow = function createPassChangeWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(PassChangeWindow, {
     csrf: csrf
   }), docuemnt.querySelector("#content"));
 };
 
-const setup = csrf => {
-  const changePassButton = document.querySelector("#changePassButton");
-  changePassButton.addEventListener("click", e => {
+var setup = function setup(csrf) {
+  var changePassButton = document.querySelector("#changePassButton");
+  changePassButton.addEventListener("click", function (e) {
     e.preventDefault();
     createPassChangeWindow(csrf);
     return false;
   });
-  createLoginWindow(csrf); //default view
+  createBannerWindow(csrf);
 };
 
-const getToken = () => {
-  sendAjax('GET', '/getToken', null, result => {
+var getToken = function getToken() {
+  sendAjax('GET', '/getToken', null, function (result) {
     setup(result.csrfToken);
   });
 };
@@ -110,18 +142,17 @@ const getToken = () => {
 $(document).ready(function () {
   getToken();
 });
-const handleError = message => {
+"use strict";
+
+var handleError = function handleError(message) {
   $("#errorHandling").text(message);
 };
 
-const redirect = response => {
-  $("#domoMessage").animate({
-    width: 'hide'
-  }, 350);
+var redirect = function redirect(response) {
   window.location = response.redirect;
 };
 
-const sendAjax = (type, action, data, success) => {
+var sendAjax = function sendAjax(type, action, data, success) {
   $.ajax({
     cashe: false,
     type: type,
@@ -129,7 +160,7 @@ const sendAjax = (type, action, data, success) => {
     data: data,
     dataType: "json",
     success: success,
-    error: function (xhr, status, error) {
+    error: function error(xhr, status, _error) {
       var messageObj = JSON.parse(xhr.responseText);
       handleError(messageObj.error);
     }

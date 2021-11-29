@@ -23,6 +23,22 @@ const ItemSchema = new mongoose.Schema({
     max: 1,
     required: true,
   },
+  rarity: {
+    type: Number,
+    min: 3,
+    max: 5,
+    required: true,
+  },
+  weaponType: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  element: {
+    type: String,
+    required: false,
+    trim: true,
+  },
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
@@ -36,6 +52,9 @@ const ItemSchema = new mongoose.Schema({
 
 ItemSchema.statics.toAPI = (doc) => ({
   name: doc.name,
+  rarity: doc.rarity,
+  weaponType: doc.weaponType,
+  element: doc.element,
   quantity: doc.quantity,
   type: doc.type,
 });
@@ -45,7 +64,7 @@ ItemSchema.statics.findByOwner = (ownerID, callback) => {
     owner: convertId(ownerID),
   };
 
-  return ItemModel.find(search).select('name quantity type').lean().exec(callback);
+  return ItemModel.find(search).select('name rarity weaponType element quantity type').lean().exec(callback);
 };
 
 ItemModel = mongoose.model('Item', ItemSchema);
