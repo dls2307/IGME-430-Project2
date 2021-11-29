@@ -33,27 +33,35 @@ const pullItem = async (req, res) => {
     owner: req.session.account._id,
   };
 
-  lastItems.push(itemData);
+  const filter = {
+    name: itemData.name,
+    owner: itemData.owner,
+  };
 
-  const newItem = new Item.ItemModel(itemData);
-
-  const itemPromise = newItem.save();
-
-  itemPromise.then(() => {
-    res.json({ redirect: '/results' });
-  });
-
-  itemPromise.catch(async (err) => {
-    console.log(err);
-    if (err.code === 11000) {
-      await Item.ItemModel.updateOne({ name: itemData.name }, { $inc: { quantity: 1 } });
-      return res.status(204).json({ message: 'Updated Successfully' });
+  Item.ItemModel.findOneAndUpdate(filter, { $inc: { quantity: 1 } }, (err, docs) => {
+    if (err) {
+      return res.status(400).json({ error: 'An error occurred' });
     }
+    if (!docs) {
+      lastItems.push(itemData);
 
-    return res.status(400).json({ error: 'An error occurred' });
+      const newItem = new Item.ItemModel(itemData);
+
+      const itemPromise = newItem.save();
+
+      itemPromise.then(() => {
+        res.json({ redirect: '/results' });
+      });
+
+      itemPromise.catch(async (newerr) => {
+        console.log(newerr);
+        return res.status(400).json({ error: 'An error occurred' });
+      });
+
+      return itemPromise;
+    }
+    return itemData;
   });
-
-  return itemPromise;
 };
 
 const getItems = (request, response) => {
