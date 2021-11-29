@@ -14,13 +14,13 @@ const resultsAppPage = (req, res) => {
     return false;
   }
 
-  res.render('app', { csrfToken: req.csrfToken(), items: lastItems });
+  res.render('app', { csrfToken: req.csrfToken(), justSummoned: true });
   return false;
 };
 
 const pullItem = async (req, res) => {
   // TODO: MAKE THIS RANDOMIZED FOR CHARACTERS/WEAPONS, NOT JUST RETURN AMBER
-  const genshinItem = genshin.characters('Jean');
+  const genshinItem = genshin.characters('Hu Tao');
   lastItems = [];
 
   const itemData = {
@@ -29,6 +29,7 @@ const pullItem = async (req, res) => {
     element: genshinItem.element,
     weaponType: genshinItem.weapontype,
     quantity: 1,
+    image: genshinItem.images.icon,
     type: 0,
     owner: req.session.account._id,
   };
