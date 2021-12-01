@@ -3,7 +3,22 @@ const models = require('../models');
 
 const { Item } = models;
 
-const bannerPage = (req, res) => res.render('app', { csrfToken: req.csrfToken() });
+const bannerPage = (req, res) => {
+  let bannerInfo = {
+    'type': "character",
+    'fiveStarFocus': [
+      "Albedo"
+    ],
+    'fourStarFocus': [
+      "Thoma",
+      "Sayu",
+      "Rosaria",
+    ]
+  };
+
+  res.render('app', { csrfToken: req.csrfToken(), bannerInfo: bannerInfo });
+};
+
 const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csrfToken() });
 
 const pullItem = async (req, res) => {
@@ -69,4 +84,5 @@ module.exports = {
   getItems,
   bannerPage,
   inventoryPage,
+  getBannerInfo,
 };

@@ -52,6 +52,22 @@ const handleSummon = (e, summonCount) => {
 };
 
 const BannerWindow = (props) =>{
+    const fiveStarFocusNodes = props.bannerInfo.fiveStarFocus.map(function(fiveStar) {
+        return (
+            <div>
+                <h4 className="">5 Star Focus: {fiveStar} </h4>
+            </div>
+        );
+    });
+
+    const fourStarFocusNodes = props.bannerInfo.fourStarFocus.map(function(fourStar) {
+        return (
+            <div>
+                <h5>4 Star Focus: {fourStar}</h5>
+            </div>
+        );
+    });
+
     return (
         <div className="card border border-primary bannerCard">
              <form id="bannerForm" 
@@ -60,6 +76,14 @@ const BannerWindow = (props) =>{
                 action="/pullItem"
                 method="GET"
                 >
+                <div className="focuses">
+                    <div className="fiveFocus">
+                        { fiveStarFocusNodes }
+                    </div>
+                    <div className="fourFocus">
+                        { fourStarFocusNodes }
+                    </div>
+                </div>
                 <label htmlFor="Banner Name">Amber Banner</label>
                 <input type="hidden" name="_csrf" value={props.csrf}/>
                 <input className="btn btn-primary" type="submit" value="Pull" />
@@ -68,9 +92,9 @@ const BannerWindow = (props) =>{
     );
 };
 
-const createBannerWindow = (csrf)=>{
+const createBannerWindow = (result)=>{
     ReactDOM.render(
-        <BannerWindow csrf={csrf} />,
+        <BannerWindow bannerInfo={result.bannerInfo} csrf={result.csrf} />,
         document.querySelector("#content")
     );
 };
@@ -134,11 +158,8 @@ const setup = (result) => {
         reateResultsWindow(result);
     }
     else {
-        createBannerWindow(result.csrf);
+        createBannerWindow(result);
     }
-    
-
-    
 };
 
 const getToken = () => {
