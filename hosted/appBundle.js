@@ -17,8 +17,32 @@
         </form>
     );
 };*/
+var ResultsWindow = function ResultsWindow(props) {
+  var resultNodes = props.items.map(function (item) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: character._id,
+      className: "card w-10 character"
+    }, /*#__PURE__*/React.createElement("img", {
+      src: character.image,
+      alt: "character picture",
+      className: "characterImage"
+    }), /*#__PURE__*/React.createElement("h3", {
+      className: "card-title characterName"
+    }, " Name: ", character.name, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "card-text characterRarity"
+    }, " Rarity: ", character.rarity, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "card-text characterWeapon"
+    }, "Weapon Type: ", character.weaponType, " "));
+  });
+  return /*#__PURE__*/React.createElement("div", {
+    className: "resultsList"
+  }, resultsNodes);
+};
+
 var createResultsWindow = function createResultsWindow(results) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(ResultsWindow, null), document.querySelector("#content"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(ResultsWindow, {
+    results: true
+  }), document.querySelector("#content"));
 };
 
 var singleSummon = function singleSummon(e) {
@@ -79,11 +103,12 @@ var handlePassChange = function handlePassChange(e) {
     return false;
   }
 
-  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), redirect);
+  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize());
   return false;
 };
 
 var PassChangeWindow = function PassChangeWindow(props) {
+  console.log(props);
   return /*#__PURE__*/React.createElement("form", {
     id: "passChangeForm",
     name: "passChangeForm",
@@ -95,7 +120,7 @@ var PassChangeWindow = function PassChangeWindow(props) {
     htmlFor: "oldPass"
   }, "Old password: "), /*#__PURE__*/React.createElement("input", {
     id: "oldPass",
-    type: "text",
+    type: "password",
     name: "oldPass",
     placeholder: "old password"
   }), /*#__PURE__*/React.createElement("label", {
@@ -126,20 +151,22 @@ var PassChangeWindow = function PassChangeWindow(props) {
 var createPassChangeWindow = function createPassChangeWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(PassChangeWindow, {
     csrf: csrf
-  }), docuemnt.querySelector("#content"));
+  }), document.querySelector("#content"));
 };
 
 var setup = function setup(result) {
   var changePassButton = document.querySelector("#changePassButton");
+  console.log(result);
   changePassButton.addEventListener("click", function (e) {
     e.preventDefault();
-    createPassChangeWindow(result.csrf);
+    createPassChangeWindow(result.csrfToken);
     return false;
   });
 
-  if (result.justSummoned === true) {//reateResultsWindow(result);
+  if (result.justSummoned === true) {
+    createResultsWindow(result);
   } else {
-    createBannerWindow(result.csrf);
+    createBannerWindow(result.csrfToken);
   }
 };
 
