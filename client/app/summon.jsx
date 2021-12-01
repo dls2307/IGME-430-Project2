@@ -113,11 +113,12 @@ const handlePassChange = (e) => {
         return false;
     }
 
-    sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), redirect);
+    sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize());
     return false;
 };
 
 const PassChangeWindow = (props) => {
+    console.log(props);
     return (
         <form id="passChangeForm"
               name="passChangeForm"
@@ -127,7 +128,7 @@ const PassChangeWindow = (props) => {
               className="mainForm"
               >
               <label htmlFor="oldPass">Old password: </label>
-              <input id="oldPass" type="text" name="oldPass" placeholder="old password"/>
+              <input id="oldPass" type="password" name="oldPass" placeholder="old password"/>
               <label htmlFor="pass">New Password: </label>
               <input id="pass" type="password" name="pass" placeholder="new password"/>
               <label htmlFor="pass2">Retype New Password: </label>
@@ -141,21 +142,22 @@ const PassChangeWindow = (props) => {
 const createPassChangeWindow = (csrf) => {
     ReactDOM.render(
         <PassChangeWindow csrf={csrf} />,
-        docuemnt.querySelector("#content")
+        document.querySelector("#content")
     );
 };
 
 const setup = (result) => {
     const changePassButton = document.querySelector("#changePassButton");
+    console.log(result);
 
     changePassButton.addEventListener("click", (e) =>{
         e.preventDefault();
-        createPassChangeWindow(result.csrf);
+        createPassChangeWindow(result.csrfToken);
         return false;
     });
 
     if (result.justSummoned === true) {
-        reateResultsWindow(result);
+        createResultsWindow(result);
     }
     else {
         createBannerWindow(result);

@@ -11,7 +11,7 @@ const router = (app) => {
   app.get('/summon', mid.requiresLogin, controllers.Item.bannerPage);
   app.get('/inventory', mid.requiresLogin, controllers.Item.inventoryPage);
   app.get('/getItems', mid.requiresLogin, controllers.Item.getItems);
-  /* app.post('/changePass', mid.requiresLogin, controllers.Account.changePassword); */
+  app.post('/passChange', mid.requiresLogin, controllers.Account.changePassword);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 
