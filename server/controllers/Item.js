@@ -5,47 +5,7 @@ const { Item } = models;
 
 let lastItems = [];
 
-const bannerPage = (req, res) => {
-  let bannerInfos = [
-    {
-      fiveStarFocus: [
-        "Albedo",
-        "Eula"
-      ],
-      fourStarFocus: [
-        "Noelle",
-        "Fischl",
-        "Thoma"
-      ],
-      type: "character"
-    },
-    {
-      fiveStarFocus: [
-        "Albedo",
-        "Eula"
-      ],
-      fourStarFocus: [
-        "Noelle",
-        "Fischl",
-        "Thoma"
-      ],
-      type: "character"
-    }
-  ];
-
-  res.render('app');
-}; 
-const inventoryPage = (req, res) =>  res.render('inventory', { csrfToken: req.csrfToken() });
-
-const resultsAppPage = (req, res) => {
-  if (lastItems.length === 0) {
-    res.render('app', { csrfToken: req.csrfToken() });
-    return false;
-  }
-
-  res.render('app', { csrfToken: req.csrfToken(), bannerInfo: bannerInfo });
-};
-
+const bannerPage = (req, res) => res.render('app'); 
 const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csrfToken() });
 
 let results = [];

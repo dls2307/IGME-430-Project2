@@ -42,11 +42,11 @@ const ResultsWindow = (props) => {
     );
 };
 
-const createResultsWindow = (results) => {
+const createResultsWindow = (input) => {
     sendAjax('GET', '/getResults', null, (results) => {
         ReactDOM.render(
             <ResultsWindow results={results}/>,
-            document.querySelector("#content")
+            document.querySelector("#bannerResults")
         );
     });
     

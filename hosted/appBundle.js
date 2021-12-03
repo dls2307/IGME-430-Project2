@@ -47,11 +47,11 @@ var ResultsWindow = function ResultsWindow(props) {
   }, resultsNodes);
 };
 
-var createResultsWindow = function createResultsWindow(results) {
+var createResultsWindow = function createResultsWindow(input) {
   sendAjax('GET', '/getResults', null, function (results) {
     ReactDOM.render( /*#__PURE__*/React.createElement(ResultsWindow, {
       results: results
-    }), document.querySelector("#content"));
+    }), document.querySelector("#bannerResults"));
   });
 }; // Tells the server that the user is summoning, and gives them the number of summons to perform.
 
