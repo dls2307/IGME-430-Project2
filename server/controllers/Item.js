@@ -3,9 +3,9 @@ const models = require('../models');
 
 const { Item } = models;
 
-let lastItems = [];
-
-const bannerPage = (req, res) => res.render('app'); 
+const bannerPage = (req, res) => {
+  res.render('app');
+};
 const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csrfToken() });
 
 let results = [];
