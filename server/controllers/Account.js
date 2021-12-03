@@ -88,33 +88,42 @@ const signup = (request, response) => {
   });
 };
 
-
-
-/* const changePassword = (request, response) => {
+const changePassword = (request, response) => {
   const req = request;
   const res = response;
 
-  req.body.username = `${req.body.username}`;
+  req.body.oldPass = `${req.body.oldPass}`;
   req.body.pass = `${req.body.pass}`;
   req.body.pass2 = `${req.body.pass2}`;
 
-  if (!req.body.username || !req.body.pass || !req.body.pass2) {
+  if (!req.body.oldPass || !req.body.pass || !req.body.pass2) {
     return res.status(400).json({ error: 'Error. All fields are required' });
   }
 
-  if (req.body.pass === req.body.pass2) {
-    return res.status(400).json({ error: 'Error. New password is the same as the old password' });
+  if (req.body.pass !== req.body.pass2) {
+    return res.status(400).json({ error: 'Error. Both passwords are not the same' });
   }
 
-  return Account.AccountModel.authenticate(req.body.username, req.body.pass, (err, account) => {
+  if (req.body.oldPass === req.body.pass) {
+    return res.status(400).json({ error: 'Error. Old password and new password are the same' });
+  }
+
+  return Account.AccountModel.authenticate(req.session.account.username, req.body.oldPass, (err, account) => {
     if (err || !account) {
       return res.status(401).json({ error: 'Error. Wrong username or password' });
     }
 
+    return Account.AccountModel.generateHash(req.body.pass2, (salt, hash) => {
+      const { username } = req.session.account;
+      return Account.AccountModel.updateOne({ username }, { salt, password: hash }, (othererr) => {
+        if (othererr) {
+          return res.status(400).json({ error: 'An error occurred' });
+        }
+        return res.status(204).json({ message: 'Password updated.' });
+      });
+    });
   });
-
 };
-*/
 
 module.exports = {
   loginPage,
@@ -122,4 +131,5 @@ module.exports = {
   login,
   signup,
   getToken,
+  changePassword,
 };

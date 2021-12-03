@@ -17,32 +17,47 @@
         </form>
     );
 };*/
+var ResultsWindow = function ResultsWindow(props) {
+  var resultNodes = props.items.map(function (item) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: character._id,
+      className: "card w-10 character"
+    }, /*#__PURE__*/React.createElement("img", {
+      src: character.image,
+      alt: "character picture",
+      className: "characterImage"
+    }), /*#__PURE__*/React.createElement("h3", {
+      className: "card-title characterName"
+    }, " Name: ", character.name, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "card-text characterRarity"
+    }, " Rarity: ", character.rarity, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "card-text characterWeapon"
+    }, "Weapon Type: ", character.weaponType, " "));
+  });
+  return /*#__PURE__*/React.createElement("div", {
+    className: "resultsList"
+  }, resultsNodes);
+};
+
 var createResultsWindow = function createResultsWindow(results) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(ResultsWindow, null), document.querySelector("#content"));
-};
-
-var singleSummon = function singleSummon(e) {
-  handleSummon(e, 1);
-};
-
-var tenfoldSummon = function tenfoldSummon(e) {
-  handleSummon(e, 10);
+  ReactDOM.render( /*#__PURE__*/React.createElement(ResultsWindow, {
+    results: true
+  }), document.querySelector("#content"));
 }; // Tells the server that the user is summoning, and gives them the number of summons to perform.
 
 
-var handleSummon = function handleSummon(e, summonCount) {
-  sendAjax('GET', $("#bannerForm").attr("action"), summonCount, redirect);
+var handleSummon = function handleSummon(e) {
+  sendAjax('GET', $("#bannerForm").attr("action"), redirect);
   return false;
 };
 
 var BannerWindow = function BannerWindow(props) {
-  console.log(props);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "card border border-primary bannerCard"
   }, /*#__PURE__*/React.createElement("form", {
     id: "bannerForm",
     name: "bannerForm",
-    onSubmit: singleSummon,
+    onSubmit: handleSummon,
     action: "/pullItem",
     method: "GET"
   }, /*#__PURE__*/React.createElement("label", {
@@ -55,12 +70,29 @@ var BannerWindow = function BannerWindow(props) {
     className: "btn btn-primary",
     type: "submit",
     value: "Pull"
-  })));
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("form", {
+    id: "bannerForm",
+    name: "bannerForm",
+    onSubmit: handleSummon,
+    action: "/pullItem",
+    method: "GET"
+  }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Banner Name"
+  }, "Amber Banner"), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "btn btn-primary",
+    type: "submit",
+    value: "Pull"
+  }))));
 };
 
-var createBannerWindow = function createBannerWindow(csrf) {
+var createBannerWindow = function createBannerWindow(result) {
   ReactDOM.render( /*#__PURE__*/React.createElement(BannerWindow, {
-    csrf: csrf
+    bannerInfo: result.bannerInfo,
+    csrf: result.csrf
   }), document.querySelector("#content"));
 }; // Password changing
 
@@ -78,11 +110,12 @@ var handlePassChange = function handlePassChange(e) {
     return false;
   }
 
-  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), redirect);
+  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize());
   return false;
 };
 
 var PassChangeWindow = function PassChangeWindow(props) {
+  console.log(props);
   return /*#__PURE__*/React.createElement("form", {
     id: "passChangeForm",
     name: "passChangeForm",
@@ -94,7 +127,7 @@ var PassChangeWindow = function PassChangeWindow(props) {
     htmlFor: "oldPass"
   }, "Old password: "), /*#__PURE__*/React.createElement("input", {
     id: "oldPass",
-    type: "text",
+    type: "password",
     name: "oldPass",
     placeholder: "old password"
   }), /*#__PURE__*/React.createElement("label", {
@@ -125,20 +158,22 @@ var PassChangeWindow = function PassChangeWindow(props) {
 var createPassChangeWindow = function createPassChangeWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(PassChangeWindow, {
     csrf: csrf
-  }), docuemnt.querySelector("#content"));
+  }), document.querySelector("#content"));
 };
 
 var setup = function setup(result) {
   var changePassButton = document.querySelector("#changePassButton");
+  console.log(result);
   changePassButton.addEventListener("click", function (e) {
     e.preventDefault();
-    createPassChangeWindow(result.csrf);
+    createPassChangeWindow(result.csrfToken);
     return false;
   });
 
-  if (result.justSummoned === true) {//reateResultsWindow(result);
+  if (result.justSummoned === true) {
+    createResultsWindow(result);
   } else {
-    createBannerWindow(result.csrf);
+    createBannerWindow(result);
   }
 };
 
