@@ -18,21 +18,29 @@
     );
 };*/
 var ResultsWindow = function ResultsWindow(props) {
-  var resultNodes = props.items.map(function (item) {
+  if (props.results.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
-      key: character._id,
+      className: "resultsList"
+    }, /*#__PURE__*/React.createElement("h3", {
+      className: "emptyResults"
+    }, "No Results Yet"));
+  }
+
+  var resultNodes = props.results.map(function (item) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: item._id,
       className: "card w-10 character"
     }, /*#__PURE__*/React.createElement("img", {
-      src: character.image,
+      src: item.image,
       alt: "character picture",
       className: "characterImage"
     }), /*#__PURE__*/React.createElement("h3", {
       className: "card-title characterName"
-    }, " Name: ", character.name, " "), /*#__PURE__*/React.createElement("h3", {
+    }, " Name: ", item.name, " "), /*#__PURE__*/React.createElement("h3", {
       className: "card-text characterRarity"
-    }, " Rarity: ", character.rarity, " "), /*#__PURE__*/React.createElement("h3", {
+    }, " Rarity: ", item.rarity, " "), /*#__PURE__*/React.createElement("h3", {
       className: "card-text characterWeapon"
-    }, "Weapon Type: ", character.weaponType, " "));
+    }, "Weapon Type: ", item.weaponType, " "));
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "resultsList"
@@ -40,9 +48,11 @@ var ResultsWindow = function ResultsWindow(props) {
 };
 
 var createResultsWindow = function createResultsWindow(results) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(ResultsWindow, {
-    results: true
-  }), document.querySelector("#content"));
+  sendAjax('GET', '/getResults', null, function (results) {
+    ReactDOM.render( /*#__PURE__*/React.createElement(ResultsWindow, {
+      results: results
+    }), document.querySelector("#content"));
+  });
 }; // Tells the server that the user is summoning, and gives them the number of summons to perform.
 
 
@@ -58,11 +68,23 @@ var BannerWindow = function BannerWindow(props) {
     id: "bannerForm",
     name: "bannerForm",
     onSubmit: handleSummon,
-    action: "/pullItem",
+    action: "/pullCharacterBanner",
     method: "GET"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "Banner Name"
-  }, "Amber Banner"), /*#__PURE__*/React.createElement("input", {
+  }, "Character Banner"), /*#__PURE__*/React.createElement("img", {
+    src: "https://uploadstatic-sea.mihoyo.com/contentweb/20210510/2021051011383243523.png",
+    alt: "eulaPortrait"
+  }), /*#__PURE__*/React.createElement("img", {
+    src: "https://uploadstatic-sea.mihoyo.com/contentweb/20200325/2020032510564718459.png",
+    alt: "noellePortrait"
+  }), /*#__PURE__*/React.createElement("img", {
+    src: "https://uploadstatic-sea.mihoyo.com/contentweb/20200402/2020040211242065763.png",
+    alt: "fischlPortrait"
+  }), /*#__PURE__*/React.createElement("img", {
+    src: "https://uploadstatic-sea.mihoyo.com/contentweb/20211021/2021102111163585990.png",
+    alt: "thomaPortrait"
+  }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
@@ -74,11 +96,17 @@ var BannerWindow = function BannerWindow(props) {
     id: "bannerForm",
     name: "bannerForm",
     onSubmit: handleSummon,
-    action: "/pullItem",
+    action: "/pullWeaponBanner",
     method: "GET"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "Banner Name"
-  }, "Amber Banner"), /*#__PURE__*/React.createElement("input", {
+  }, "Weapon Banner"), /*#__PURE__*/React.createElement("img", {
+    src: "https://static.wikia.nocookie.net/gensin-impact/images/4/4f/Weapon_Wolf%27s_Gravestone.png",
+    alt: "wolfGravestone"
+  }), /*#__PURE__*/React.createElement("img", {
+    src: "https://static.wikia.nocookie.net/gensin-impact/images/1/17/Weapon_Staff_of_Homa.png",
+    alt: "staffOfHoma"
+  }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
@@ -169,12 +197,8 @@ var setup = function setup(result) {
     createPassChangeWindow(result.csrfToken);
     return false;
   });
-
-  if (result.justSummoned === true) {
-    createResultsWindow(result);
-  } else {
-    createBannerWindow(result);
-  }
+  createResultsWindow(result);
+  createBannerWindow(result);
 };
 
 var getToken = function getToken() {

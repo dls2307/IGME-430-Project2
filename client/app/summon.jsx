@@ -16,13 +16,21 @@
 };*/
 
 const ResultsWindow = (props) => {
-    const resultNodes = props.items.map(function(item) {
+    if (props.results.length === 0) {
         return (
-            <div key={character._id} className="card w-10 character">
-                <img src={character.image} alt="character picture" className="characterImage" />
-                <h3 className="card-title characterName"> Name: {character.name} </h3>
-                <h3 className="card-text characterRarity"> Rarity: {character.rarity} </h3>
-                <h3 className="card-text characterWeapon">Weapon Type: {character.weaponType} </h3>
+            <div className="resultsList">
+                <h3 className="emptyResults">No Results Yet</h3>
+            </div>
+        );
+    }
+
+    const resultNodes = props.results.map(function(item) {
+        return (
+            <div key={item._id} className="card w-10 character">
+                <img src={item.image} alt="character picture" className="characterImage" />
+                <h3 className="card-title characterName"> Name: {item.name} </h3>
+                <h3 className="card-text characterRarity"> Rarity: {item.rarity} </h3>
+                <h3 className="card-text characterWeapon">Weapon Type: {item.weaponType} </h3>
             </div>
         );
     });
@@ -35,10 +43,13 @@ const ResultsWindow = (props) => {
 };
 
 const createResultsWindow = (results) => {
-    ReactDOM.render(
-        <ResultsWindow results/>,
-        document.querySelector("#content")
-    );
+    sendAjax('GET', '/getResults', null, (results) => {
+        ReactDOM.render(
+            <ResultsWindow results={results}/>,
+            document.querySelector("#content")
+        );
+    });
+    
 };
 
 // Tells the server that the user is summoning, and gives them the number of summons to perform.
@@ -55,10 +66,14 @@ const BannerWindow = (props) =>{
                 <form id="bannerForm" 
                     name="bannerForm"
                     onSubmit={handleSummon}
-                    action="/pullItem"
+                    action="/pullCharacterBanner"
                     method="GET"
                     >
-                    <label htmlFor="Banner Name">Amber Banner</label>
+                    <label htmlFor="Banner Name">Character Banner</label>
+                    <img src="https://uploadstatic-sea.mihoyo.com/contentweb/20210510/2021051011383243523.png" alt="eulaPortrait" />
+                    <img src="https://uploadstatic-sea.mihoyo.com/contentweb/20200325/2020032510564718459.png" alt="noellePortrait" />
+                    <img src="https://uploadstatic-sea.mihoyo.com/contentweb/20200402/2020040211242065763.png" alt="fischlPortrait" />
+                    <img src="https://uploadstatic-sea.mihoyo.com/contentweb/20211021/2021102111163585990.png" alt="thomaPortrait" />
                     <input type="hidden" name="_csrf" value={props.csrf}/>
                     <input className="btn btn-primary" type="submit" value="Pull" />
                 </form>
@@ -67,10 +82,12 @@ const BannerWindow = (props) =>{
                 <form id="bannerForm" 
                     name="bannerForm"
                     onSubmit={handleSummon}
-                    action="/pullItem"
+                    action="/pullWeaponBanner"
                     method="GET"
                     >
-                    <label htmlFor="Banner Name">Amber Banner</label>
+                    <label htmlFor="Banner Name">Weapon Banner</label>
+                    <img src="https://static.wikia.nocookie.net/gensin-impact/images/4/4f/Weapon_Wolf%27s_Gravestone.png" alt="wolfGravestone" />
+                    <img src="https://static.wikia.nocookie.net/gensin-impact/images/1/17/Weapon_Staff_of_Homa.png" alt="staffOfHoma" />
                     <input type="hidden" name="_csrf" value={props.csrf}/>
                     <input className="btn btn-primary" type="submit" value="Pull" />
                 </form>
@@ -144,12 +161,8 @@ const setup = (result) => {
         return false;
     });
 
-    if (result.justSummoned === true) {
-        createResultsWindow(result);
-    }
-    else {
-        createBannerWindow(result);
-    }
+    createResultsWindow(result);
+    createBannerWindow(result);
 };
 
 const getToken = () => {
