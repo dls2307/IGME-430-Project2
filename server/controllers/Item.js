@@ -4,7 +4,7 @@ const models = require('../models');
 const { Item } = models;
 
 const bannerPage = (req, res) => {
-  res.render('app');
+  res.render('app', { csrfToken: req.csrfToken() });
 };
 const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csrfToken() });
 
