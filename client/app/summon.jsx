@@ -41,28 +41,40 @@ const createResultsWindow = (results) => {
     );
 };
 
-const singleSummon = (e) => { handleSummon(e, 1); };
-const tenfoldSummon = (e) => { handleSummon(e, 10); };
-
 // Tells the server that the user is summoning, and gives them the number of summons to perform.
-const handleSummon = (e, summonCount) => {
-    sendAjax('GET', $("#bannerForm").attr("action"), summonCount, redirect);
+const handleSummon = (e) => {
+    sendAjax('GET', $("#bannerForm").attr("action"), redirect);
     return false;
 };
 
 const BannerWindow = (props) =>{
+
     return (
-        <div className="card border border-primary bannerCard">
-             <form id="bannerForm" 
-                name="bannerForm"
-                onSubmit={singleSummon}
-                action="/pullItem"
-                method="GET"
-                >
-                <label htmlFor="Banner Name">Amber Banner</label>
-                <input type="hidden" name="_csrf" value={props.csrf}/>
-                <input className="btn btn-primary" type="submit" value="Pull" />
-            </form>
+        <div>
+            <div className="card border border-primary bannerCard">
+                <form id="bannerForm" 
+                    name="bannerForm"
+                    onSubmit={handleSummon}
+                    action="/pullItem"
+                    method="GET"
+                    >
+                    <label htmlFor="Banner Name">Amber Banner</label>
+                    <input type="hidden" name="_csrf" value={props.csrf}/>
+                    <input className="btn btn-primary" type="submit" value="Pull" />
+                </form>
+            </div>
+            <div>
+                <form id="bannerForm" 
+                    name="bannerForm"
+                    onSubmit={handleSummon}
+                    action="/pullItem"
+                    method="GET"
+                    >
+                    <label htmlFor="Banner Name">Amber Banner</label>
+                    <input type="hidden" name="_csrf" value={props.csrf}/>
+                    <input className="btn btn-primary" type="submit" value="Pull" />
+                </form>
+            </div>
         </div>
     );
 };
@@ -72,6 +84,7 @@ const createBannerWindow = (csrf)=>{
         <BannerWindow csrf={csrf} />,
         document.querySelector("#content")
     );
+    
 };
 
 // Password changing
@@ -135,9 +148,7 @@ const setup = (result) => {
     else {
         createBannerWindow(result.csrf);
     }
-    
 
-    
 };
 
 const getToken = () => {

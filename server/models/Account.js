@@ -16,6 +16,11 @@ const AccountSchema = new mongoose.Schema({
     unique: true,
     match: /^[A-Za-z0-9_\-.]{1,16}$/,
   },
+  subscribed: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
   salt: {
     type: Buffer,
     required: true,
@@ -32,6 +37,7 @@ const AccountSchema = new mongoose.Schema({
 
 AccountSchema.statics.toAPI = (doc) => ({
   username: doc.username,
+  subscribed: doc.subscribed,
   _id: doc._id,
 });
 
