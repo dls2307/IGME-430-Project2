@@ -1,8 +1,6 @@
 "use strict";
 
 var CharacterList = function CharacterList(props) {
-  console.log(props);
-
   if (props.characters.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
       className: "characterList"
