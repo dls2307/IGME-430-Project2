@@ -108,13 +108,15 @@ const changePassword = (request, response) => {
     return res.status(400).json({ error: 'Error. Old password and new password are the same' });
   }
 
-  return Account.AccountModel.authenticate(req.session.account.username, req.body.oldPass, (err, account) => {
+  const { username } = req.session.account;
+
+  return Account.AccountModel.authenticate(username, req.body.oldPass, (err, account) => {
     if (err || !account) {
       return res.status(401).json({ error: 'Error. Wrong username or password' });
     }
 
     return Account.AccountModel.generateHash(req.body.pass2, (salt, hash) => {
-      const { username } = req.session.account;
+      console.log();
       return Account.AccountModel.updateOne({ username }, { salt, password: hash }, (othererr) => {
         if (othererr) {
           return res.status(400).json({ error: 'An error occurred' });

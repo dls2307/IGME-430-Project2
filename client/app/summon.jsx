@@ -58,7 +58,7 @@ const BannerWindow = (props) =>{
              <form id="bannerForm" 
                 name="bannerForm"
                 onSubmit={singleSummon}
-                action="/pullItem"
+                action="/pullCharacter"
                 method="GET"
                 >
                 <label htmlFor="Banner Name">Amber Banner</label>

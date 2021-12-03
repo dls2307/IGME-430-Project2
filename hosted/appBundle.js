@@ -68,7 +68,7 @@ var BannerWindow = function BannerWindow(props) {
     id: "bannerForm",
     name: "bannerForm",
     onSubmit: singleSummon,
-    action: "/pullItem",
+    action: "/pullCharacter",
     method: "GET"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "Banner Name"
