@@ -59,7 +59,6 @@ const handleSummon = (e) => {
 };
 
 const BannerWindow = (props) =>{
-
     return (
         <div>
             <div className="card border border-primary bannerCard">
