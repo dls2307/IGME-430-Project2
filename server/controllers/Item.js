@@ -42,7 +42,7 @@ const pullCharacter = (req, res, characterName) => {
       const itemPromise = newItem.save();
 
       itemPromise.then(() => {
-        //res.status(202).json({ redirect: '/' });
+        // res.status(202).json({ redirect: '/' });
       });
 
       itemPromise.catch((othererr) => {
@@ -52,7 +52,8 @@ const pullCharacter = (req, res, characterName) => {
 
       return itemPromise;
     }
-    return;
+
+    return false;
   });
 };
 
@@ -87,7 +88,7 @@ const pullWeapon = (req, res, weaponName) => {
       const itemPromise = newItem.save();
 
       itemPromise.then(() => {
-        //res.json({ redirect: '/' });
+        // res.json({ redirect: '/' });
       });
 
       itemPromise.catch((othererr) => {
@@ -97,7 +98,8 @@ const pullWeapon = (req, res, weaponName) => {
 
       return itemPromise;
     }
-    return;
+
+    return false;
   });
 };
 
@@ -118,7 +120,7 @@ const pullWeaponBanner = (req, res) => {
     pullWeapon(req, res, weaponList[Math.floor(Math.random() * weaponList.length)]);
   }
 
-  return res.status(200).json( {redirect: '/' });
+  return res.status(200).json({ redirect: '/' });
 };
 
 const getItems = (request, response) => {
@@ -135,9 +137,7 @@ const getItems = (request, response) => {
   });
 };
 
-const getResults = (req, res) => {
-  return res.json({ results });
-};
+const getResults = (req, res) => res.json({ results });
 
 module.exports = {
   pullCharacter,
