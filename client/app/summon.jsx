@@ -16,13 +16,21 @@
 };*/
 
 const ResultsWindow = (props) => {
-    const resultNodes = props.items.map(function(item) {
+    if (props.results.length === 0) {
         return (
-            <div key={character._id} className="card w-10 character">
-                <img src={character.image} alt="character picture" className="characterImage" />
-                <h3 className="card-title characterName"> Name: {character.name} </h3>
-                <h3 className="card-text characterRarity"> Rarity: {character.rarity} </h3>
-                <h3 className="card-text characterWeapon">Weapon Type: {character.weaponType} </h3>
+            <div className="resultsList">
+                <h3 className="emptyResults">No Results Yet</h3>
+            </div>
+        );
+    }
+
+    const resultNodes = props.results.map(function(item) {
+        return (
+            <div key={item._id} className="card w-10 character">
+                <img src={item.image} alt="character picture" className="characterImage" />
+                <h3 className="card-title characterName"> Name: {item.name} </h3>
+                <h3 className="card-text characterRarity"> Rarity: {item.rarity} </h3>
+                <h3 className="card-text characterWeapon">Weapon Type: {item.weaponType} </h3>
             </div>
         );
     });
@@ -34,60 +42,55 @@ const ResultsWindow = (props) => {
     );
 };
 
-const createResultsWindow = (results) => {
-    ReactDOM.render(
-        <ResultsWindow results/>,
-        document.querySelector("#content")
-    );
+const createResultsWindow = (input) => {
+    sendAjax('GET', '/getResults', null, (results) => {
+        ReactDOM.render(
+            <ResultsWindow results={results}/>,
+            document.querySelector("#bannerResults")
+        );
+    });
+    
 };
 
-const singleSummon = (e) => { handleSummon(e, 1); };
-const tenfoldSummon = (e) => { handleSummon(e, 10); };
-
 // Tells the server that the user is summoning, and gives them the number of summons to perform.
-const handleSummon = (e, summonCount) => {
-    e.preventDefault();
-    sendAjax('GET', $("#bannerForm").attr("action"), summonCount, redirect);
+const handleSummon = (e) => {
+    sendAjax('GET', $("#bannerForm").attr("action"), redirect);
     return false;
 };
 
 const BannerWindow = (props) =>{
-    const fiveStarFocusNodes = props.bannerInfo.fiveStarFocus.map(function(fiveStar) {
-        return (
-            <div>
-                <h4 className="">5 Star Focus: {fiveStar} </h4>
-            </div>
-        );
-    });
-
-    const fourStarFocusNodes = props.bannerInfo.fourStarFocus.map(function(fourStar) {
-        return (
-            <div>
-                <h5>4 Star Focus: {fourStar}</h5>
-            </div>
-        );
-    });
-
     return (
-        <div className="card border border-primary bannerCard">
-             <form id="bannerForm" 
-                name="bannerForm"
-                onSubmit={singleSummon}
-                action="/pullItem"
-                method="GET"
-                >
-                <div className="focuses">
-                    <div className="fiveFocus">
-                        { fiveStarFocusNodes }
-                    </div>
-                    <div className="fourFocus">
-                        { fourStarFocusNodes }
-                    </div>
-                </div>
-                <label htmlFor="Banner Name">Amber Banner</label>
-                <input type="hidden" name="_csrf" value={props.csrf}/>
-                <input className="btn btn-primary" type="submit" value="Pull" />
-            </form>
+        <div>
+            <div className="card border border-primary bannerCard">
+                <form id="bannerForm" 
+                    name="bannerForm"
+                    onSubmit={handleSummon}
+                    action="/pullCharacterBanner"
+                    method="GET"
+                    >
+                    <label htmlFor="Banner Name">Character Banner</label>
+                    <img src="https://uploadstatic-sea.mihoyo.com/contentweb/20210510/2021051011383243523.png" alt="eulaPortrait" />
+                    <img src="https://uploadstatic-sea.mihoyo.com/contentweb/20200325/2020032510564718459.png" alt="noellePortrait" />
+                    <img src="https://uploadstatic-sea.mihoyo.com/contentweb/20200402/2020040211242065763.png" alt="fischlPortrait" />
+                    <img src="https://uploadstatic-sea.mihoyo.com/contentweb/20211021/2021102111163585990.png" alt="thomaPortrait" />
+                    <input type="hidden" name="_csrf" value={props.csrf}/>
+                    <input className="btn btn-primary" type="submit" value="Pull" />
+                </form>
+            </div>
+            <div>
+                <form id="bannerForm" 
+                    name="bannerForm"
+                    onSubmit={handleSummon}
+                    action="/pullWeaponBanner"
+                    method="GET"
+                    >
+                    <label htmlFor="Banner Name">Weapon Banner</label>
+                    <img src="https://static.wikia.nocookie.net/gensin-impact/images/4/4f/Weapon_Wolf%27s_Gravestone.png" alt="wolfGravestone" />
+                    <img src="https://static.wikia.nocookie.net/gensin-impact/images/1/17/Weapon_Staff_of_Homa.png" alt="staffOfHoma" />
+                    <input type="hidden" name="_csrf" value={props.csrf}/>
+                    <input className="btn btn-primary" type="submit" value="Pull" />
+                </form>
+            </div>
         </div>
     );
 };
@@ -97,6 +100,7 @@ const createBannerWindow = (result)=>{
         <BannerWindow bannerInfo={result.bannerInfo} csrf={result.csrf} />,
         document.querySelector("#content")
     );
+    
 };
 
 // Password changing
@@ -155,12 +159,8 @@ const setup = (result) => {
         return false;
     });
 
-    if (result.justSummoned === true) {
-        createResultsWindow(result);
-    }
-    else if (result.bannerInfo !== null) {
-        createBannerWindow(result);
-    }
+    createResultsWindow(result);
+    createBannerWindow(result);
 };
 
 const getToken = () => {
