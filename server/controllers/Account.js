@@ -127,6 +127,10 @@ const changePassword = (request, response) => {
   });
 };
 
+const subscribe = (req, res) => {
+  
+};
+
 module.exports = {
   loginPage,
   logout,
@@ -134,4 +138,5 @@ module.exports = {
   signup,
   getToken,
   changePassword,
+  subscribe,
 };

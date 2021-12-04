@@ -92,7 +92,9 @@ var BannerWindow = function BannerWindow(props) {
     className: "btn btn-primary",
     type: "submit",
     value: "Pull"
-  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("form", {
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "card border border-primary bannerCard"
+  }, /*#__PURE__*/React.createElement("form", {
     id: "bannerForm",
     name: "bannerForm",
     onSubmit: handleSummon,

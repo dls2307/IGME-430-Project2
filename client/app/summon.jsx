@@ -77,7 +77,7 @@ const BannerWindow = (props) =>{
                     <input className="btn btn-primary" type="submit" value="Pull" />
                 </form>
             </div>
-            <div>
+            <div className="card border border-primary bannerCard">
                 <form id="bannerForm" 
                     name="bannerForm"
                     onSubmit={handleSummon}

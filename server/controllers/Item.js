@@ -130,8 +130,11 @@ const getItems = (request, response) => {
   });
 };
 
-const getResults = (request, response) => {
-  const res = response;
+const getResults = (req, res) => {
+  if (results.length === 0) {
+    return res.status(404).json({ error: 'No results yet' });
+  }
+
   return res.json({ results });
 };
 
@@ -143,8 +146,5 @@ module.exports = {
   getItems,
   bannerPage,
   inventoryPage,
-<<<<<<< HEAD
-=======
   getResults,
->>>>>>> 2983e05c0fadb4a5bea38baff6e9c35a991370d2
 };

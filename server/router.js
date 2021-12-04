@@ -12,7 +12,7 @@ const router = (app) => {
   app.get('/summon', mid.requiresLogin, controllers.Item.bannerPage);
   app.get('/inventory', mid.requiresLogin, controllers.Item.inventoryPage);
   app.get('/getItems', mid.requiresLogin, controllers.Item.getItems);
-  app.get('/results', mid.requiresLogin, controllers.Item.resultsAppPage);
+  app.get('/results', mid.requiresLogin, controllers.Item.getResults);
   app.post('/subscribe', mid.requiresLogin, controllers.Account.subscribe);
   app.post('/passChange', mid.requiresLogin, controllers.Account.changePassword);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
