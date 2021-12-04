@@ -11,6 +11,10 @@ const logout = (req, res) => {
   res.redirect('/');
 };
 
+const settings = (req, res) => {
+  res.render('settings', { csrfToken: req.csrfToken() });
+};
+
 const login = (request, response) => {
   const req = request;
   const res = response;
@@ -127,8 +131,15 @@ const changePassword = (request, response) => {
   });
 };
 
-const subscribe = (req, res) => {
-  
+// Changes the user's subscription-status
+const subscribe = (req, res) => res.status(200);
+
+// Returns if the user is subscribed or not.
+const getSubscription = (req, res) => {
+  console.log('Here!');
+  const subscriptionStatus = req.session.account.subscribed;
+
+  return res.status(200).json({ subscribed: subscriptionStatus });
 };
 
 module.exports = {
@@ -139,4 +150,6 @@ module.exports = {
   getToken,
   changePassword,
   subscribe,
+  getSubscription,
+  settings,
 };

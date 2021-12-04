@@ -122,8 +122,54 @@ var BannerWindow = function BannerWindow(props) {
 var createBannerWindow = function createBannerWindow(result) {
   ReactDOM.render( /*#__PURE__*/React.createElement(BannerWindow, {
     bannerInfo: result.bannerInfo,
-    csrf: result.csrf
+    csrf: result.csrfToken
   }), document.querySelector("#content"));
+};
+
+var setup = function setup(result) {
+  var changePassButton = document.querySelector("#changePassButton");
+  console.log(result);
+  changePassButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    createPassChangeWindow(result.csrfToken);
+    return false;
+  });
+  createResultsWindow(result);
+  createBannerWindow(result);
+};
+
+var getToken = function getToken() {
+  sendAjax('GET', '/getToken', null, function (result) {
+    setup(result);
+  });
+};
+
+$(document).ready(function () {
+  getToken();
+});
+"use strict";
+
+var handleError = function handleError(message) {
+  $("#errorHandling").text(message);
+};
+
+var redirect = function redirect(response) {
+  window.location = response.redirect;
+};
+
+var sendAjax = function sendAjax(type, action, data, success) {
+  $.ajax({
+    cashe: false,
+    type: type,
+    url: action,
+    data: data,
+    dataType: "json",
+    success: success,
+    error: function error(xhr, status, _error) {
+      var messageObj = JSON.parse(xhr.responseText);
+      handleError(messageObj.error);
+    }
+  });
 }; // Password changing
 
 
@@ -188,50 +234,4 @@ var createPassChangeWindow = function createPassChangeWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(PassChangeWindow, {
     csrf: csrf
   }), document.querySelector("#content"));
-};
-
-var setup = function setup(result) {
-  var changePassButton = document.querySelector("#changePassButton");
-  console.log(result);
-  changePassButton.addEventListener("click", function (e) {
-    e.preventDefault();
-    createPassChangeWindow(result.csrfToken);
-    return false;
-  });
-  createResultsWindow(result);
-  createBannerWindow(result);
-};
-
-var getToken = function getToken() {
-  sendAjax('GET', '/getToken', null, function (result) {
-    setup(result);
-  });
-};
-
-$(document).ready(function () {
-  getToken();
-});
-"use strict";
-
-var handleError = function handleError(message) {
-  $("#errorHandling").text(message);
-};
-
-var redirect = function redirect(response) {
-  window.location = response.redirect;
-};
-
-var sendAjax = function sendAjax(type, action, data, success) {
-  $.ajax({
-    cashe: false,
-    type: type,
-    url: action,
-    data: data,
-    dataType: "json",
-    success: success,
-    error: function error(xhr, status, _error) {
-      var messageObj = JSON.parse(xhr.responseText);
-      handleError(messageObj.error);
-    }
-  });
 };

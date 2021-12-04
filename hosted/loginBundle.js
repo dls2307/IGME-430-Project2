@@ -163,4 +163,68 @@ var sendAjax = function sendAjax(type, action, data, success) {
       handleError(messageObj.error);
     }
   });
+}; // Password changing
+
+
+var handlePassChange = function handlePassChange(e) {
+  e.preventDefault();
+
+  if ($("#oldPass").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
+    handleError("All fields are required");
+    return false;
+  }
+
+  if ($("#pass").val() !== $("#pass2").val()) {
+    handleError("Passwords do not match");
+    return false;
+  }
+
+  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize());
+  return false;
+};
+
+var PassChangeWindow = function PassChangeWindow(props) {
+  return /*#__PURE__*/React.createElement("form", {
+    id: "passChangeForm",
+    name: "passChangeForm",
+    onSubmit: handlePassChange,
+    action: "/passChange",
+    method: "POST",
+    className: "mainForm"
+  }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "oldPass"
+  }, "Old password: "), /*#__PURE__*/React.createElement("input", {
+    id: "oldPass",
+    type: "password",
+    name: "oldPass",
+    placeholder: "old password"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "pass"
+  }, "New Password: "), /*#__PURE__*/React.createElement("input", {
+    id: "pass",
+    type: "password",
+    name: "pass",
+    placeholder: "new password"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "pass2"
+  }, "Retype New Password: "), /*#__PURE__*/React.createElement("input", {
+    id: "pass2",
+    type: "password",
+    name: "pass2",
+    placeholder: "retype new password"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "formSubmit",
+    type: "submit",
+    value: "Change Password"
+  }));
+};
+
+var createPassChangeWindow = function createPassChangeWindow(csrf) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(PassChangeWindow, {
+    csrf: csrf
+  }), document.querySelector("#content"));
 };

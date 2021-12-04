@@ -6,6 +6,7 @@ const router = (app) => {
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
+  app.get('/settings', mid.requiresLogin, controllers.Account.settings);
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
   app.get('/pullCharacter', controllers.Item.pullCharacterBanner);
   app.get('/pullWeapon', controllers.Item.pullWeaponBanner);
@@ -13,6 +14,7 @@ const router = (app) => {
   app.get('/inventory', mid.requiresLogin, controllers.Item.inventoryPage);
   app.get('/getItems', mid.requiresLogin, controllers.Item.getItems);
   app.get('/results', mid.requiresLogin, controllers.Item.getResults);
+  app.get('getSubscription', mid.requiresLogin, controllers.Account.getSubscription);
   app.post('/subscribe', mid.requiresLogin, controllers.Account.subscribe);
   app.post('/passChange', mid.requiresLogin, controllers.Account.changePassword);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
