@@ -4,10 +4,8 @@ var handleSubscribe = function handleSubscribe(e) {};
 
 var SettingsWindow = function SettingsWindow(props) {
   var btnText = "";
-  if (props.isSubscribed) btnText = "Unsubscribe";else btnText = "Subscribe";
-
-  /*#__PURE__*/
-  React.createElement("div", {
+  if (props.isSubscribed === true) btnText = "Unsubscribe";else btnText = "Subscribe";
+  return /*#__PURE__*/React.createElement("div", {
     className: "card border border-primary bannerCard"
   }, /*#__PURE__*/React.createElement("form", {
     id: "settingsForm",
@@ -17,7 +15,7 @@ var SettingsWindow = function SettingsWindow(props) {
     method: "POST"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "Banner Name"
-  }, "Account Settings"), /*#__PURE__*/React.createElement("input", {
+  }, "Account Settings"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("p", null, "Subscribe to increase your chances for rarer and more powerful characters!"), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
@@ -30,9 +28,8 @@ var SettingsWindow = function SettingsWindow(props) {
 
 var createSettingsWindow = function createSettingsWindow(result) {
   sendAjax('GET', '/getSub', null, function (accountInfo) {
-    console.log(accountInfo);
     ReactDOM.render( /*#__PURE__*/React.createElement(SettingsWindow, {
-      isSubscribed: accountInfo.subscriptionStatus,
+      isSubscribed: accountInfo.subscribed,
       csrf: result.csrfToken
     }), document.querySelector('#accountSettings'));
   });

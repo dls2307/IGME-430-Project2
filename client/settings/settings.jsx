@@ -4,8 +4,10 @@ const handleSubscribe = (e) => {
 
 const SettingsWindow = (props) => {
     let btnText = "";
-    if (props.isSubscribed) btnText = "Unsubscribe";
+    if (props.isSubscribed === true) btnText = "Unsubscribe";
     else btnText = "Subscribe";
+
+    return (
     <div className="card border border-primary bannerCard">
         <form id="settingsForm" 
             name="settingsForm"
@@ -14,16 +16,20 @@ const SettingsWindow = (props) => {
             method="POST"
             >
             <label htmlFor="Banner Name">Account Settings</label>
+            <br />
+            <p>Subscribe to increase your chances for rarer and more powerful characters!</p>
             <input type="hidden" name="_csrf" value={props.csrf}/>
             <input className="btn btn-primary" type="submit" value={btnText} />
         </form>
     </div>
+    );
+    
 };
 
 const createSettingsWindow = (result) => {
     sendAjax('GET', '/getSub', null, (accountInfo) => {
         ReactDOM.render(
-            <SettingsWindow isSubscribed={accountInfo.subscriptionStatus} csrf={result.csrfToken}/>,
+            <SettingsWindow isSubscribed={accountInfo.subscribed} csrf={result.csrfToken}/>,
             document.querySelector('#accountSettings')
         );
     });

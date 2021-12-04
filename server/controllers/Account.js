@@ -138,7 +138,7 @@ const subscribe = (req, res) => res.status(200);
 const getSub = (req, res) => {
   const subscriptionStatus = req.session.account.subscribed;
 
-  return res.status(200).json({ subscribed: subscriptionStatus });
+  return res.json({ subscribed: subscriptionStatus });
 };
 
 module.exports = {
