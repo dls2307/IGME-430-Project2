@@ -11,7 +11,7 @@ const logout = (req, res) => {
   res.redirect('/');
 };
 
-const settings = (req, res) => {
+const settingsPage = (req, res) => {
   res.render('settings', { csrfToken: req.csrfToken() });
 };
 
@@ -135,8 +135,7 @@ const changePassword = (request, response) => {
 const subscribe = (req, res) => res.status(200);
 
 // Returns if the user is subscribed or not.
-const getSubscription = (req, res) => {
-  console.log('Here!');
+const getSub = (req, res) => {
   const subscriptionStatus = req.session.account.subscribed;
 
   return res.status(200).json({ subscribed: subscriptionStatus });
@@ -150,6 +149,6 @@ module.exports = {
   getToken,
   changePassword,
   subscribe,
-  getSubscription,
-  settings,
+  getSub,
+  settingsPage,
 };

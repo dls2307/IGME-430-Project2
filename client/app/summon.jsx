@@ -16,7 +16,7 @@
 };*/
 
 const ResultsWindow = (props) => {
-    if (props.results.length === 0) {
+    if (props.results.results.length === 0) {
         return (
             <div className="resultsList">
                 <h3 className="emptyResults">No Results Yet</h3>
@@ -24,7 +24,7 @@ const ResultsWindow = (props) => {
         );
     }
 
-    const resultNodes = props.results.map(function(item) {
+    const resultsNodes = props.results.results.map(function(item) {
         return (
             <div key={item._id} className="card w-10 character">
                 <img src={item.image} alt="character picture" className="characterImage" />
@@ -65,7 +65,7 @@ const BannerWindow = (props) =>{
                 <form id="bannerForm" 
                     name="bannerForm"
                     onSubmit={handleSummon}
-                    action="/pullCharacterBanner"
+                    action="/pullCharacter"
                     method="GET"
                     >
                     <label htmlFor="Banner Name">Character Banner</label>
@@ -81,7 +81,7 @@ const BannerWindow = (props) =>{
                 <form id="bannerForm" 
                     name="bannerForm"
                     onSubmit={handleSummon}
-                    action="/pullWeaponBanner"
+                    action="/pullWeapon"
                     method="GET"
                     >
                     <label htmlFor="Banner Name">Weapon Banner</label>
@@ -98,7 +98,7 @@ const BannerWindow = (props) =>{
 const createBannerWindow = (result)=>{
     ReactDOM.render(
         <BannerWindow bannerInfo={result.bannerInfo} csrf={result.csrfToken} />,
-        document.querySelector("#content")
+        document.querySelector("#banner")
     );
     
 };
@@ -113,8 +113,9 @@ const setup = (result) => {
         return false;
     });
 
-    createResultsWindow(result);
     createBannerWindow(result);
+    createResultsWindow(result);
+    
 };
 
 const getToken = () => {

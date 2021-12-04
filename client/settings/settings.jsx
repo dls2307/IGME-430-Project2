@@ -21,8 +21,7 @@ const SettingsWindow = (props) => {
 };
 
 const createSettingsWindow = (result) => {
-    sendAjax('GET', '/getSubscription', null, (accountInfo) => {
-        console.log(accountInfo);
+    sendAjax('GET', '/getSub', null, (accountInfo) => {
         ReactDOM.render(
             <SettingsWindow isSubscribed={accountInfo.subscriptionStatus} csrf={result.csrfToken}/>,
             document.querySelector('#accountSettings')

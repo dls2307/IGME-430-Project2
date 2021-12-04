@@ -29,7 +29,7 @@ var SettingsWindow = function SettingsWindow(props) {
 };
 
 var createSettingsWindow = function createSettingsWindow(result) {
-  sendAjax('GET', '/getSubscription', null, function (accountInfo) {
+  sendAjax('GET', '/getSub', null, function (accountInfo) {
     console.log(accountInfo);
     ReactDOM.render( /*#__PURE__*/React.createElement(SettingsWindow, {
       isSubscribed: accountInfo.subscriptionStatus,

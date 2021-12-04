@@ -18,7 +18,7 @@
     );
 };*/
 var ResultsWindow = function ResultsWindow(props) {
-  if (props.results.length === 0) {
+  if (props.results.results.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
       className: "resultsList"
     }, /*#__PURE__*/React.createElement("h3", {
@@ -26,7 +26,7 @@ var ResultsWindow = function ResultsWindow(props) {
     }, "No Results Yet"));
   }
 
-  var resultNodes = props.results.map(function (item) {
+  var resultsNodes = props.results.results.map(function (item) {
     return /*#__PURE__*/React.createElement("div", {
       key: item._id,
       className: "card w-10 character"
@@ -68,7 +68,7 @@ var BannerWindow = function BannerWindow(props) {
     id: "bannerForm",
     name: "bannerForm",
     onSubmit: handleSummon,
-    action: "/pullCharacterBanner",
+    action: "/pullCharacter",
     method: "GET"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "Banner Name"
@@ -98,7 +98,7 @@ var BannerWindow = function BannerWindow(props) {
     id: "bannerForm",
     name: "bannerForm",
     onSubmit: handleSummon,
-    action: "/pullWeaponBanner",
+    action: "/pullWeapon",
     method: "GET"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "Banner Name"
@@ -123,7 +123,7 @@ var createBannerWindow = function createBannerWindow(result) {
   ReactDOM.render( /*#__PURE__*/React.createElement(BannerWindow, {
     bannerInfo: result.bannerInfo,
     csrf: result.csrfToken
-  }), document.querySelector("#content"));
+  }), document.querySelector("#banner"));
 };
 
 var setup = function setup(result) {
@@ -134,8 +134,8 @@ var setup = function setup(result) {
     createPassChangeWindow(result.csrfToken);
     return false;
   });
-  createResultsWindow(result);
   createBannerWindow(result);
+  createResultsWindow(result);
 };
 
 var getToken = function getToken() {

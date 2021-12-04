@@ -42,7 +42,7 @@ const pullCharacter = (req, res, characterName) => {
       const itemPromise = newItem.save();
 
       itemPromise.then(() => {
-        res.json({ redirect: '/' });
+        //res.status(202).json({ redirect: '/' });
       });
 
       itemPromise.catch((othererr) => {
@@ -52,17 +52,18 @@ const pullCharacter = (req, res, characterName) => {
 
       return itemPromise;
     }
-    return res.status(200).json({ redirect: '/' });
+    return;
   });
 };
 
 const pullWeapon = (req, res, weaponName) => {
   // TODO: MAKE THIS RANDOMIZED FOR CHARACTERS/WEAPONS, NOT JUST RETURN AMBER
-  const genshinItem = genshin.characters(weaponName);
+  const genshinItem = genshin.weapons(weaponName);
 
   const itemData = {
     name: genshinItem.name,
     rarity: genshinItem.rarity,
+    weaponType: genshinItem.weapontype,
     quantity: 1,
     image: genshinItem.images.icon,
     type: 1,
@@ -86,7 +87,7 @@ const pullWeapon = (req, res, weaponName) => {
       const itemPromise = newItem.save();
 
       itemPromise.then(() => {
-        res.json({ redirect: '/' });
+        //res.json({ redirect: '/' });
       });
 
       itemPromise.catch((othererr) => {
@@ -96,7 +97,7 @@ const pullWeapon = (req, res, weaponName) => {
 
       return itemPromise;
     }
-    return res.status(200).json({ redirect: '/' });
+    return;
   });
 };
 
@@ -106,6 +107,8 @@ const pullCharacterBanner = (req, res) => {
   for (let i = 0; i < 10; i++) {
     pullCharacter(req, res, characterList[Math.floor(Math.random() * characterList.length)]);
   }
+
+  return res.status(200);
 };
 
 const pullWeaponBanner = (req, res) => {
@@ -114,6 +117,8 @@ const pullWeaponBanner = (req, res) => {
   for (let i = 0; i < 10; i++) {
     pullWeapon(req, res, weaponList[Math.floor(Math.random() * weaponList.length)]);
   }
+
+  return res.status(200).json( {redirect: '/' });
 };
 
 const getItems = (request, response) => {
@@ -131,10 +136,6 @@ const getItems = (request, response) => {
 };
 
 const getResults = (req, res) => {
-  if (results.length === 0) {
-    return res.status(404).json({ error: 'No results yet' });
-  }
-
   return res.json({ results });
 };
 
