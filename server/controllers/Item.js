@@ -16,7 +16,7 @@ const bannerPage = (req, res) => {
     ]
   };
 
-  res.render('app', { csrfToken: req.csrfToken(), bannerInfo: bannerInfo });
+  res.render('app', { csrfToken: req.csrfToken(), bannerInfo });
 };
 
 const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csrfToken() });
@@ -84,5 +84,4 @@ module.exports = {
   getItems,
   bannerPage,
   inventoryPage,
-  getBannerInfo,
 };

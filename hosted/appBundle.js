@@ -61,7 +61,14 @@ var handleSummon = function handleSummon(e, summonCount) {
 };
 
 var BannerWindow = function BannerWindow(props) {
-  console.log(props);
+  var fiveStarFocusNodes = props.bannerInfo.fiveStarFocus.map(function (fiveStar) {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h4", {
+      className: ""
+    }, "5 Star Focus: ", fiveStar, " "));
+  });
+  var fourStarFocusNodes = props.bannerInfo.fourStarFocus.map(function (fourStar) {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h5", null, "4 Star Focus: ", fourStar));
+  });
   return /*#__PURE__*/React.createElement("div", {
     className: "card border border-primary bannerCard"
   }, /*#__PURE__*/React.createElement("form", {
@@ -70,7 +77,13 @@ var BannerWindow = function BannerWindow(props) {
     onSubmit: singleSummon,
     action: "/pullItem",
     method: "GET"
-  }, /*#__PURE__*/React.createElement("label", {
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "focuses"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "fiveFocus"
+  }, fiveStarFocusNodes), /*#__PURE__*/React.createElement("div", {
+    className: "fourFocus"
+  }, fourStarFocusNodes)), /*#__PURE__*/React.createElement("label", {
     htmlFor: "Banner Name"
   }, "Amber Banner"), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
@@ -83,9 +96,10 @@ var BannerWindow = function BannerWindow(props) {
   })));
 };
 
-var createBannerWindow = function createBannerWindow(csrf) {
+var createBannerWindow = function createBannerWindow(result) {
   ReactDOM.render( /*#__PURE__*/React.createElement(BannerWindow, {
-    csrf: csrf
+    bannerInfo: result.bannerInfo,
+    csrf: result.csrf
   }), document.querySelector("#content"));
 }; // Password changing
 
@@ -108,7 +122,6 @@ var handlePassChange = function handlePassChange(e) {
 };
 
 var PassChangeWindow = function PassChangeWindow(props) {
-  console.log(props);
   return /*#__PURE__*/React.createElement("form", {
     id: "passChangeForm",
     name: "passChangeForm",
@@ -165,13 +178,14 @@ var setup = function setup(result) {
 
   if (result.justSummoned === true) {
     createResultsWindow(result);
-  } else {
-    createBannerWindow(result.csrfToken);
+  } else if (result.bannerInfo !== null) {
+    createBannerWindow(result);
   }
 };
 
 var getToken = function getToken() {
   sendAjax('GET', '/getToken', null, function (result) {
+    console.log(result);
     setup(result);
   });
 };

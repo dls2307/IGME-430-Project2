@@ -118,7 +118,6 @@ const handlePassChange = (e) => {
 };
 
 const PassChangeWindow = (props) => {
-    console.log(props);
     return (
         <form id="passChangeForm"
               name="passChangeForm"
@@ -159,7 +158,7 @@ const setup = (result) => {
     if (result.justSummoned === true) {
         createResultsWindow(result);
     }
-    else {
+    else if (result.bannerInfo !== null) {
         createBannerWindow(result);
     }
 };
