@@ -30,11 +30,11 @@ const pullCharacter = (req, res, characterName) => {
   for (let i = 0; i < results.length; i++) {
     if (results[i].name === itemData.name) {
       dupeCheck = true;
+      return;
     }
   }
 
   if (dupeCheck === false) {
-    console.log('Clean!');
     results.push(itemData);
   }
 
