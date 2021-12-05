@@ -40,7 +40,7 @@ const WeaponList = function(props) {
     const weaponsNodes = props.weapons.map(function(weapon) {
         return (
             <div key={weapon._id} className="card w-10 weapon">
-                <img src="https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ambor.png" alt="weapon picture" className="weaponImage" />
+                <img src={weapon.image} alt="weapon picture" className="weaponImage" />
                 <h3 className="card-title weaponName"> Name: {weapon.name} </h3>
                 <h3 className="card-text weaponRarity"> Rarity: {weapon.rarity} </h3>
                 <h3 className="card-text weaponType">Weapon Type: {weapon.weaponType} </h3>
@@ -57,15 +57,18 @@ const WeaponList = function(props) {
 };
 
 const loadInventoryFromServer = () => {
-    sendAjax('GET', '/getItems', null, (data) => {
+    sendAjax('GET', '/getCharacters', null, (data) => {
+        console.log(data);
         ReactDOM.render(
-            <CharacterList characters={data.items} />, document.querySelector("#characters")
+            <CharacterList characters={data.characters} />, document.querySelector("#characters")
         );
-        /*()
+    });
+
+    sendAjax('GET', '/getWeapons', null, (data) => {
+        console.log(data);
         ReactDOM.render(
-            <WeaponList weapons={data.items} />, document.querySelector("#weapons")
+            <WeaponList weapons={data.weapons} />, document.querySelector("#weapons")
         );
-        */
     });
 };
 

@@ -97,7 +97,7 @@ const pullWeapon = (req, res, isFiveStar) => {
       weaponType: genshinItem.weapontype,
       quantity: 1,
       image: genshinItem.images.icon,
-      type: 0,
+      type: 1,
       owner: req.session.account._id,
     };
   }
@@ -186,6 +186,38 @@ const pullWeaponBanner = (req, res) => {
   return res.status(200).json({ redirect: '/' });
 };
 
+const getCharacters = (req, res) => {
+  const filter = {
+    owner: req.session.account._id,
+    type: 0,
+  };
+
+  return Item.ItemModel.find(filter, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+
+    return res.json({ characters: docs });
+  });
+};
+
+const getWeapons = (req, res) => {
+  const filter = {
+    owner: req.session.account._id,
+    type: 1,
+  };
+
+  return Item.ItemModel.find(filter, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+
+    return res.json({ weapons: docs });
+  });
+}
+
 const getItems = (request, response) => {
   const req = request;
   const res = response;
@@ -222,6 +254,8 @@ module.exports = {
   pullCharacterBanner,
   pullWeapon,
   pullWeaponBanner,
+  getCharacters,
+  getWeapons,
   getItems,
   bannerPage,
   inventoryPage,
