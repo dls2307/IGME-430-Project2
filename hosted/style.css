@@ -118,7 +118,7 @@ nav:nth-child(1) {
 }
 
 .character, .weapon {
-    width: 15%;
+    width: 20%;
     display: inline-block;
     margin: 5px;
 }
@@ -140,4 +140,8 @@ nav:nth-child(1) {
 
 .characterImage {
     max-width: 100%;
+}
+
+form img {
+    max-width: 15%;
 }
