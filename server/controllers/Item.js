@@ -11,7 +11,6 @@ const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csr
 let results = [];
 
 const pullCharacter = (req, res, isFiveStar) => {
-
   const characterList = genshin.characters('names', { matchCategories: true });
   let desiredRarity = '4';
   if (isFiveStar) desiredRarity = '5';
@@ -19,9 +18,9 @@ const pullCharacter = (req, res, isFiveStar) => {
   let itemData = {};
 
   while (itemData.rarity !== desiredRarity) {
-    let characterName = characterList[Math.floor(Math.random() * characterList.length)];
+    const characterName = characterList[Math.floor(Math.random() * characterList.length)];
     const genshinItem = genshin.characters(characterName);
-    //console.log(itemData.rarity);
+    // console.log(itemData.rarity);
     itemData = {
       name: genshinItem.name,
       rarity: genshinItem.rarity,
@@ -81,7 +80,6 @@ const pullCharacter = (req, res, isFiveStar) => {
 };
 
 const pullWeapon = (req, res, isFiveStar) => {
-
   const characterList = genshin.characters('names', { matchCategories: true });
   let desiredRarity = '4';
   if (isFiveStar) desiredRarity = '5';
@@ -89,9 +87,9 @@ const pullWeapon = (req, res, isFiveStar) => {
   let itemData = {};
 
   while (itemData.rarity !== desiredRarity) {
-    let characterName = characterList[Math.floor(Math.random() * characterList.length)];
+    const characterName = characterList[Math.floor(Math.random() * characterList.length)];
     const genshinItem = genshin.characters(characterName);
-    //console.log(itemData.rarity);
+    // console.log(itemData.rarity);
     itemData = {
       name: genshinItem.name,
       rarity: genshinItem.rarity,
@@ -148,13 +146,12 @@ const pullWeapon = (req, res, isFiveStar) => {
 
 const pullCharacterBanner = (req, res) => {
   results = [];
-  
 
   const isSubbed = req.session.account.subscribed;
   let pullRate = 6;
   if (isSubbed === true) pullRate = 12;
   // If the resultNum is lower than 6, then it's a 5-star. The rate is doubled if-subscribed.
-  let resultNum = Math.floor(Math.random() * 1000);
+  const resultNum = Math.floor(Math.random() * 1000);
 
   let isFiveStar = false;
   if (resultNum <= pullRate) {
@@ -170,12 +167,12 @@ const pullCharacterBanner = (req, res) => {
 
 const pullWeaponBanner = (req, res) => {
   results = [];
-  
+
   const isSubbed = req.session.account.subscribed;
   let pullRate = 6;
   if (isSubbed === true) pullRate = 12;
   // If the resultNum is lower than 6, then it's a 5-star. The rate is doubled if-subscribed.
-  let resultNum = Math.floor(Math.random() * 1000);
+  const resultNum = Math.floor(Math.random() * 1000);
 
   let isFiveStar = false;
   if (resultNum <= pullRate) {

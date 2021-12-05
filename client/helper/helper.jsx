@@ -2,6 +2,10 @@ const handleError = (message) => {
     $("#errorHandling").text(message);
 };
 
+const handleJSON = (jsonObject)=>{
+    $("#errorHandling").text(jsonObject.message);
+}
+
 const redirect = (response) => {
     window.location = response.redirect;
 };
@@ -35,7 +39,7 @@ const handlePassChange = (e) => {
         return false;
     }
 
-    sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize());
+    sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleError, redirect);
     return false;
 };
 

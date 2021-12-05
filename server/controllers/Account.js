@@ -125,7 +125,7 @@ const changePassword = (request, response) => {
         if (othererr) {
           return res.status(400).json({ error: 'An error occurred' });
         }
-        return res.status(204).json({ message: 'Password updated.' });
+        return res.status(200).json({ redirect: '/', message: 'Password updated.' });
       });
     });
   });
@@ -134,7 +134,6 @@ const changePassword = (request, response) => {
 // Changes the user's subscription-status
 const subscribe = (req, res) => {
   const newState = !req.session.account.subscribed;
-  console.log(req.session.account.subscribed);
   const filter = {
     _id: req.session.account._id,
   };
