@@ -132,7 +132,24 @@ const changePassword = (request, response) => {
 };
 
 // Changes the user's subscription-status
-const subscribe = (req, res) => res.status(200);
+const subscribe = (req, res) => {
+  let currentAccount = req.session.account;
+  let newState = !currentAccount.subscribed;
+
+  let filter = {
+    username: currentAccount.username,
+  };
+
+  Account.AccountModel.updateOne(filter, { subscribed: newState }, (err) => {
+    if (err) {
+      //console.log('ERROR');
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+  });
+  console.log(req.session.account.subscribed);
+
+  res.status(200).json({ redirect: '/settings'});
+};
 
 // Returns if the user is subscribed or not.
 const getSub = (req, res) => {
