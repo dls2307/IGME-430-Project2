@@ -57,7 +57,8 @@ var createResultsWindow = function createResultsWindow(input) {
 
 
 var handleSummon = function handleSummon(e) {
-  sendAjax('GET', $("#bannerForm").attr("action"), redirect);
+  e.preventDefault();
+  sendAjax('GET', $("#bannerForm").attr("action"), $("#bannerForm").serialize(), redirect);
   return false;
 };
 

@@ -54,7 +54,8 @@ const createResultsWindow = (input) => {
 
 // Tells the server that the user is summoning, and gives them the number of summons to perform.
 const handleSummon = (e) => {
-    sendAjax('GET', $("#bannerForm").attr("action"), redirect);
+    e.preventDefault();
+    sendAjax('GET', $("#bannerForm").attr("action"), $("#bannerForm").serialize(), redirect);
     return false;
 };
 
