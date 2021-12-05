@@ -2,19 +2,23 @@ const models = require('../models');
 
 const { Account } = models;
 
+// Renders login page
 const loginPage = (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 };
 
+// Logs user out
 const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
 };
 
+// Renders settings page
 const settingsPage = (req, res) => {
   res.render('settings', { csrfToken: req.csrfToken() });
 };
 
+// Logs user in if valid info is sent
 const login = (request, response) => {
   const req = request;
   const res = response;
@@ -37,6 +41,7 @@ const login = (request, response) => {
   });
 };
 
+// Retrieves CSRF Token
 const getToken = (request, response) => {
   const req = request;
   const res = response;
@@ -48,6 +53,7 @@ const getToken = (request, response) => {
   res.json(csrfJSON);
 };
 
+// Creates a new account
 const signup = (request, response) => {
   const req = request;
   const res = response;
@@ -92,6 +98,7 @@ const signup = (request, response) => {
   });
 };
 
+// Changes passwords of the user
 const changePassword = (request, response) => {
   const req = request;
   const res = response;
@@ -116,7 +123,7 @@ const changePassword = (request, response) => {
 
   return Account.AccountModel.authenticate(username, req.body.oldPass, (err, account) => {
     if (err || !account) {
-      return res.status(401).json({ error: 'Error. Wrong username or password' });
+      return res.status(401).json({ error: 'Error. Incorrect password' });
     }
 
     return Account.AccountModel.generateHash(req.body.pass2, (salt, hash) => {
@@ -125,28 +132,19 @@ const changePassword = (request, response) => {
         if (othererr) {
           return res.status(400).json({ error: 'An error occurred' });
         }
-        return res.status(204).json({ message: 'Password updated.' });
+        return res.status(200).json({ message: 'Password updated.' });
       });
     });
   });
 };
 
 // Changes the user's subscription-status
-const subscribe = (req, res) => {
-  const currentAccount = req.session.account;
-  const newState = !currentAccount.subscribed;
+const subscribe = (request, response) => {
+  const req = request;
+  const res = response;
 
-  const filter = {
-    username: currentAccount.username,
-  };
-
-  Account.AccountModel.updateOne(filter, { subscribed: newState }, (err) => {
-    if (err) {
-      // console.log('ERROR');
-      return res.status(400).json({ error: 'An error occurred' });
-    }
-    return res.status(204).json({ message: 'Subscription updated' });
-  });
+  req.session.account.subscribed = !req.session.account.subscribed;
+  return res.status(200).json({ redirect: '/settings' });
 };
 
 // Returns if the user is subscribed or not.
@@ -154,6 +152,23 @@ const getSub = (req, res) => {
   const subscriptionStatus = req.session.account.subscribed;
 
   return res.json({ subscribed: subscriptionStatus });
+};
+
+// Deletes the user's account
+const deleteAccount = (req, res) => {
+  const filter = {
+    _id: req.session.account._id,
+  };
+  return Account.AccountModel.deleteOne(filter, (err, docs) => {
+    if (err) {
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+    if (docs) {
+      console.log(docs);
+    }
+    req.session.destroy();
+    return res.status(200).json({ redirect: '/' });
+  });
 };
 
 module.exports = {
@@ -166,4 +181,5 @@ module.exports = {
   subscribe,
   getSub,
   settingsPage,
+  deleteAccount,
 };

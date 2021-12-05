@@ -143,7 +143,15 @@ $(document).ready(function () {
 "use strict";
 
 var handleError = function handleError(message) {
-  $("#errorHandling").text(message);
+  if (typeof message === "string") {
+    $("#errorHandling").text(message);
+  }
+};
+
+var handleJSON = function handleJSON(jsonObject) {
+  if (jsonObject.message) {
+    $("#errorHandling").text(jsonObject.message);
+  }
 };
 
 var redirect = function redirect(response) {
@@ -179,7 +187,7 @@ var handlePassChange = function handlePassChange(e) {
     return false;
   }
 
-  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize());
+  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleJSON, handleError);
   return false;
 };
 
@@ -190,12 +198,13 @@ var PassChangeWindow = function PassChangeWindow(props) {
     onSubmit: handlePassChange,
     action: "/passChange",
     method: "POST",
-    className: "mainForm"
+    className: "mainForm form-group"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "oldPass"
   }, "Old password: "), /*#__PURE__*/React.createElement("input", {
     id: "oldPass",
     type: "password",
+    className: "form-control",
     name: "oldPass",
     placeholder: "old password"
   }), /*#__PURE__*/React.createElement("label", {
@@ -203,6 +212,7 @@ var PassChangeWindow = function PassChangeWindow(props) {
   }, "New Password: "), /*#__PURE__*/React.createElement("input", {
     id: "pass",
     type: "password",
+    className: "form-control",
     name: "pass",
     placeholder: "new password"
   }), /*#__PURE__*/React.createElement("label", {
@@ -210,6 +220,7 @@ var PassChangeWindow = function PassChangeWindow(props) {
   }, "Retype New Password: "), /*#__PURE__*/React.createElement("input", {
     id: "pass2",
     type: "password",
+    className: "form-control",
     name: "pass2",
     placeholder: "retype new password"
   }), /*#__PURE__*/React.createElement("input", {
@@ -217,7 +228,8 @@ var PassChangeWindow = function PassChangeWindow(props) {
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "formSubmit",
+    id: "passSubmit",
+    className: "btn btn-primary",
     type: "submit",
     value: "Change Password"
   }));

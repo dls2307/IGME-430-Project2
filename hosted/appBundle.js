@@ -1,22 +1,5 @@
 "use strict";
 
-// Banner creations
-
-/*const BannerWindow = (props) => {
-    return (
-        <form id="bannerForm"
-            name="bannerForm"
-            action="/summon"
-            method="POST"
-            className="mainForm"
-            >
-            <h3>{props.bannerTitle}</h3>
-            <p>{props.bannerDescription}</p>
-            <input id="singleSum" type="button" onClick={singleSummon}>Summon Once</input>
-            <input id="tenfoldSum" type="button" onClick={tenfoldSummon}>Summon Ten Times</input>
-        </form>
-    );
-};*/
 var ResultsWindow = function ResultsWindow(props) {
   if (props.results.results.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
@@ -56,9 +39,15 @@ var createResultsWindow = function createResultsWindow(input) {
 }; // Tells the server that the user is summoning, and gives them the number of summons to perform.
 
 
-var handleSummon = function handleSummon(e) {
+var handleCharacterSummon = function handleCharacterSummon(e) {
   e.preventDefault();
-  sendAjax('GET', $("#bannerForm").attr("action"), $("#bannerForm").serialize(), redirect);
+  sendAjax('GET', $("#characterBannerForm").attr("action"), $("#characterBannerForm").serialize(), redirect);
+  return false;
+};
+
+var handleWeaponSummon = function handleWeaponSummon(e) {
+  e.preventDefault();
+  sendAjax('GET', $("#weaponBannerForm").attr("action"), $("#weaponBannerForm").serialize(), redirect);
   return false;
 };
 
@@ -66,9 +55,9 @@ var BannerWindow = function BannerWindow(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "card border border-primary bannerCard"
   }, /*#__PURE__*/React.createElement("form", {
-    id: "bannerForm",
+    id: "characterBannerForm",
     name: "bannerForm",
-    onSubmit: handleSummon,
+    onSubmit: handleCharacterSummon,
     action: "/pullCharacter",
     method: "GET"
   }, /*#__PURE__*/React.createElement("label", {
@@ -96,9 +85,9 @@ var BannerWindow = function BannerWindow(props) {
   }))), /*#__PURE__*/React.createElement("div", {
     className: "card border border-primary bannerCard"
   }, /*#__PURE__*/React.createElement("form", {
-    id: "bannerForm",
+    id: "weaponBannerForm",
     name: "bannerForm",
-    onSubmit: handleSummon,
+    onSubmit: handleWeaponSummon,
     action: "/pullWeapon",
     method: "GET"
   }, /*#__PURE__*/React.createElement("label", {
@@ -151,7 +140,15 @@ $(document).ready(function () {
 "use strict";
 
 var handleError = function handleError(message) {
-  $("#errorHandling").text(message);
+  if (typeof message === "string") {
+    $("#errorHandling").text(message);
+  }
+};
+
+var handleJSON = function handleJSON(jsonObject) {
+  if (jsonObject.message) {
+    $("#errorHandling").text(jsonObject.message);
+  }
 };
 
 var redirect = function redirect(response) {
@@ -187,7 +184,7 @@ var handlePassChange = function handlePassChange(e) {
     return false;
   }
 
-  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize());
+  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleJSON, handleError);
   return false;
 };
 
@@ -198,12 +195,13 @@ var PassChangeWindow = function PassChangeWindow(props) {
     onSubmit: handlePassChange,
     action: "/passChange",
     method: "POST",
-    className: "mainForm"
+    className: "mainForm form-group"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "oldPass"
   }, "Old password: "), /*#__PURE__*/React.createElement("input", {
     id: "oldPass",
     type: "password",
+    className: "form-control",
     name: "oldPass",
     placeholder: "old password"
   }), /*#__PURE__*/React.createElement("label", {
@@ -211,6 +209,7 @@ var PassChangeWindow = function PassChangeWindow(props) {
   }, "New Password: "), /*#__PURE__*/React.createElement("input", {
     id: "pass",
     type: "password",
+    className: "form-control",
     name: "pass",
     placeholder: "new password"
   }), /*#__PURE__*/React.createElement("label", {
@@ -218,6 +217,7 @@ var PassChangeWindow = function PassChangeWindow(props) {
   }, "Retype New Password: "), /*#__PURE__*/React.createElement("input", {
     id: "pass2",
     type: "password",
+    className: "form-control",
     name: "pass2",
     placeholder: "retype new password"
   }), /*#__PURE__*/React.createElement("input", {
@@ -225,7 +225,8 @@ var PassChangeWindow = function PassChangeWindow(props) {
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "formSubmit",
+    id: "passSubmit",
+    className: "btn btn-primary",
     type: "submit",
     value: "Change Password"
   }));

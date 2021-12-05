@@ -50,7 +50,7 @@ var WeaponList = function WeaponList(props) {
       key: weapon._id,
       className: "card w-10 weapon"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ambor.png",
+      src: weapon.image,
       alt: "weapon picture",
       className: "weaponImage"
     }), /*#__PURE__*/React.createElement("h3", {
@@ -69,15 +69,17 @@ var WeaponList = function WeaponList(props) {
 };
 
 var loadInventoryFromServer = function loadInventoryFromServer() {
-  sendAjax('GET', '/getItems', null, function (data) {
+  sendAjax('GET', '/getCharacters', null, function (data) {
+    console.log(data);
     ReactDOM.render( /*#__PURE__*/React.createElement(CharacterList, {
-      characters: data.items
+      characters: data.characters
     }), document.querySelector("#characters"));
-    /*()
-    ReactDOM.render(
-        <WeaponList weapons={data.items} />, document.querySelector("#weapons")
-    );
-    */
+  });
+  sendAjax('GET', '/getWeapons', null, function (data) {
+    console.log(data);
+    ReactDOM.render( /*#__PURE__*/React.createElement(WeaponList, {
+      weapons: data.weapons
+    }), document.querySelector("#weapons"));
   });
 };
 
@@ -97,7 +99,15 @@ $(document).ready(function () {
 "use strict";
 
 var handleError = function handleError(message) {
-  $("#errorHandling").text(message);
+  if (typeof message === "string") {
+    $("#errorHandling").text(message);
+  }
+};
+
+var handleJSON = function handleJSON(jsonObject) {
+  if (jsonObject.message) {
+    $("#errorHandling").text(jsonObject.message);
+  }
 };
 
 var redirect = function redirect(response) {
@@ -133,7 +143,7 @@ var handlePassChange = function handlePassChange(e) {
     return false;
   }
 
-  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize());
+  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleJSON, handleError);
   return false;
 };
 
@@ -144,12 +154,13 @@ var PassChangeWindow = function PassChangeWindow(props) {
     onSubmit: handlePassChange,
     action: "/passChange",
     method: "POST",
-    className: "mainForm"
+    className: "mainForm form-group"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "oldPass"
   }, "Old password: "), /*#__PURE__*/React.createElement("input", {
     id: "oldPass",
     type: "password",
+    className: "form-control",
     name: "oldPass",
     placeholder: "old password"
   }), /*#__PURE__*/React.createElement("label", {
@@ -157,6 +168,7 @@ var PassChangeWindow = function PassChangeWindow(props) {
   }, "New Password: "), /*#__PURE__*/React.createElement("input", {
     id: "pass",
     type: "password",
+    className: "form-control",
     name: "pass",
     placeholder: "new password"
   }), /*#__PURE__*/React.createElement("label", {
@@ -164,6 +176,7 @@ var PassChangeWindow = function PassChangeWindow(props) {
   }, "Retype New Password: "), /*#__PURE__*/React.createElement("input", {
     id: "pass2",
     type: "password",
+    className: "form-control",
     name: "pass2",
     placeholder: "retype new password"
   }), /*#__PURE__*/React.createElement("input", {
@@ -171,7 +184,8 @@ var PassChangeWindow = function PassChangeWindow(props) {
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "formSubmit",
+    id: "passSubmit",
+    className: "btn btn-primary",
     type: "submit",
     value: "Change Password"
   }));

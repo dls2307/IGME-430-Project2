@@ -1,6 +1,22 @@
 "use strict";
 
-var handleSubscribe = function handleSubscribe(e) {};
+var handleSubscribe = function handleSubscribe(e) {
+  e.preventDefault();
+  sendAjax('POST', $("#settingsForm").attr("action"), $("#settingsForm").serialize(), redirect);
+  return false;
+};
+
+var handleDeleteInventory = function handleDeleteInventory(e) {
+  e.preventDefault();
+  sendAjax('DELETE', $("#deleteInventoryForm").attr("action"), $("#deleteInventoryForm").serialize(), handleJSON);
+  return false;
+};
+
+var handleDeleteAccount = function handleDeleteAccount(e) {
+  e.preventDefault();
+  sendAjax('DELETE', $("#deleteAccountForm").attr("action"), $("#deleteAccountForm").serialize(), redirect);
+  return false;
+};
 
 var SettingsWindow = function SettingsWindow(props) {
   var btnText = "";
@@ -23,6 +39,38 @@ var SettingsWindow = function SettingsWindow(props) {
     className: "btn btn-primary",
     type: "submit",
     value: btnText
+  })), /*#__PURE__*/React.createElement("form", {
+    id: "deleteInventoryForm",
+    name: "deleteInventoryForm",
+    onSubmit: handleDeleteInventory,
+    action: "/deleteInventory",
+    method: "DELETE"
+  }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Banner Name"
+  }, "Delete Inventory"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("p", null, "Delete your inventory."), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "btn btn-primary",
+    type: "submit",
+    value: "Delete Inventory"
+  })), /*#__PURE__*/React.createElement("form", {
+    id: "deleteAccountForm",
+    name: "deleteAccountForm",
+    onSubmit: handleDeleteAccount,
+    action: "/deleteAccount",
+    method: "DELETE"
+  }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Banner Name"
+  }, "Delete Account"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("p", null, "Delete your account."), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "btn btn-primary",
+    type: "submit",
+    value: "Delete Account"
   })));
 };
 
@@ -57,7 +105,15 @@ $(document).ready(function () {
 "use strict";
 
 var handleError = function handleError(message) {
-  $("#errorHandling").text(message);
+  if (typeof message === "string") {
+    $("#errorHandling").text(message);
+  }
+};
+
+var handleJSON = function handleJSON(jsonObject) {
+  if (jsonObject.message) {
+    $("#errorHandling").text(jsonObject.message);
+  }
 };
 
 var redirect = function redirect(response) {
@@ -93,7 +149,7 @@ var handlePassChange = function handlePassChange(e) {
     return false;
   }
 
-  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize());
+  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleJSON, handleError);
   return false;
 };
 
@@ -104,12 +160,13 @@ var PassChangeWindow = function PassChangeWindow(props) {
     onSubmit: handlePassChange,
     action: "/passChange",
     method: "POST",
-    className: "mainForm"
+    className: "mainForm form-group"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "oldPass"
   }, "Old password: "), /*#__PURE__*/React.createElement("input", {
     id: "oldPass",
     type: "password",
+    className: "form-control",
     name: "oldPass",
     placeholder: "old password"
   }), /*#__PURE__*/React.createElement("label", {
@@ -117,6 +174,7 @@ var PassChangeWindow = function PassChangeWindow(props) {
   }, "New Password: "), /*#__PURE__*/React.createElement("input", {
     id: "pass",
     type: "password",
+    className: "form-control",
     name: "pass",
     placeholder: "new password"
   }), /*#__PURE__*/React.createElement("label", {
@@ -124,6 +182,7 @@ var PassChangeWindow = function PassChangeWindow(props) {
   }, "Retype New Password: "), /*#__PURE__*/React.createElement("input", {
     id: "pass2",
     type: "password",
+    className: "form-control",
     name: "pass2",
     placeholder: "retype new password"
   }), /*#__PURE__*/React.createElement("input", {
@@ -131,7 +190,8 @@ var PassChangeWindow = function PassChangeWindow(props) {
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "formSubmit",
+    id: "passSubmit",
+    className: "btn btn-primary",
     type: "submit",
     value: "Change Password"
   }));

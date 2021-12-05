@@ -1,20 +1,3 @@
-// Banner creations
-/*const BannerWindow = (props) => {
-    return (
-        <form id="bannerForm"
-            name="bannerForm"
-            action="/summon"
-            method="POST"
-            className="mainForm"
-            >
-            <h3>{props.bannerTitle}</h3>
-            <p>{props.bannerDescription}</p>
-            <input id="singleSum" type="button" onClick={singleSummon}>Summon Once</input>
-            <input id="tenfoldSum" type="button" onClick={tenfoldSummon}>Summon Ten Times</input>
-        </form>
-    );
-};*/
-
 const ResultsWindow = (props) => {
     if (props.results.results.length === 0) {
         return (
@@ -53,9 +36,15 @@ const createResultsWindow = (input) => {
 };
 
 // Tells the server that the user is summoning, and gives them the number of summons to perform.
-const handleSummon = (e) => {
+const handleCharacterSummon = (e) => {
     e.preventDefault();
-    sendAjax('GET', $("#bannerForm").attr("action"), $("#bannerForm").serialize(), redirect);
+    sendAjax('GET', $("#characterBannerForm").attr("action"), $("#characterBannerForm").serialize(), redirect);
+    return false;
+};
+
+const handleWeaponSummon = (e) => {
+    e.preventDefault();
+    sendAjax('GET', $("#weaponBannerForm").attr("action"), $("#weaponBannerForm").serialize(), redirect);
     return false;
 };
 
@@ -63,9 +52,9 @@ const BannerWindow = (props) =>{
     return (
         <div>
             <div className="card border border-primary bannerCard">
-                <form id="bannerForm" 
+                <form id="characterBannerForm" 
                     name="bannerForm"
-                    onSubmit={handleSummon}
+                    onSubmit={handleCharacterSummon}
                     action="/pullCharacter"
                     method="GET"
                     >
@@ -79,9 +68,9 @@ const BannerWindow = (props) =>{
                 </form>
             </div>
             <div className="card border border-primary bannerCard">
-                <form id="bannerForm" 
+                <form id="weaponBannerForm" 
                     name="bannerForm"
-                    onSubmit={handleSummon}
+                    onSubmit={handleWeaponSummon}
                     action="/pullWeapon"
                     method="GET"
                     >

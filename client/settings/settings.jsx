@@ -1,6 +1,20 @@
 const handleSubscribe = (e) => {
-    
+    e.preventDefault();
+    sendAjax('POST', $("#settingsForm").attr("action"), $("#settingsForm").serialize(), redirect);
+    return false;
 };
+
+const handleDeleteInventory = (e)=>{
+    e.preventDefault();
+    sendAjax('DELETE',$("#deleteInventoryForm").attr("action"),$("#deleteInventoryForm").serialize(),handleJSON);
+    return false;
+}
+
+const handleDeleteAccount = (e)=>{
+    e.preventDefault();
+    sendAjax('DELETE',$("#deleteAccountForm").attr("action"),$("#deleteAccountForm").serialize(),redirect);
+    return false;
+}
 
 const SettingsWindow = (props) => {
     let btnText = "";
@@ -20,6 +34,30 @@ const SettingsWindow = (props) => {
             <p>Subscribe to increase your chances for rarer and more powerful characters!</p>
             <input type="hidden" name="_csrf" value={props.csrf}/>
             <input className="btn btn-primary" type="submit" value={btnText} />
+        </form>
+        <form id="deleteInventoryForm" 
+            name="deleteInventoryForm"
+            onSubmit={handleDeleteInventory}
+            action="/deleteInventory"
+            method="DELETE"
+            >
+            <label htmlFor="Banner Name">Delete Inventory</label>
+            <br />
+            <p>Delete your inventory.</p>
+            <input type="hidden" name="_csrf" value={props.csrf}/>
+            <input className="btn btn-primary" type="submit" value="Delete Inventory" />
+        </form>
+        <form id="deleteAccountForm" 
+            name="deleteAccountForm"
+            onSubmit={handleDeleteAccount}
+            action="/deleteAccount"
+            method="DELETE"
+            >
+            <label htmlFor="Banner Name">Delete Account</label>
+            <br />
+            <p>Delete your account.</p>
+            <input type="hidden" name="_csrf" value={props.csrf}/>
+            <input className="btn btn-primary" type="submit" value="Delete Account" />
         </form>
     </div>
     );
