@@ -20,7 +20,6 @@ const pullCharacter = (req, res, isFiveStar) => {
   while (itemData.rarity !== desiredRarity) {
     const characterName = characterList[Math.floor(Math.random() * characterList.length)];
     const genshinItem = genshin.characters(characterName);
-    // console.log(itemData.rarity);
     itemData = {
       name: genshinItem.name,
       rarity: genshinItem.rarity,
@@ -144,9 +143,9 @@ const pullCharacterBanner = (req, res) => {
 
   const isSubbed = req.session.account.subscribed;
   let pullRate = 100;
-  if (isSubbed === true){
+  if (isSubbed === true) {
     pullRate = 1000;
-  } 
+  }
   // If the resultNum is lower than 6, then it's a 5-star. The rate is doubled if-subscribed.
   const resultNum = Math.floor(Math.random() * 1000);
 
@@ -157,8 +156,8 @@ const pullCharacterBanner = (req, res) => {
 
   while (results.length < 10) {
     pullCharacter(req, res, isFiveStar);
-    if(isFiveStar){
-      isFiveStar=!isFiveStar;
+    if (isFiveStar) {
+      isFiveStar = !isFiveStar;
     }
   }
 
@@ -181,8 +180,8 @@ const pullWeaponBanner = (req, res) => {
 
   while (results.length < 10) {
     pullWeapon(req, res, isFiveStar);
-    if(isFiveStar){
-      isFiveStar=!isFiveStar;
+    if (isFiveStar) {
+      isFiveStar = !isFiveStar;
     }
   }
 
@@ -219,7 +218,7 @@ const getWeapons = (req, res) => {
 
     return res.json({ weapons: docs });
   });
-}
+};
 
 const getItems = (request, response) => {
   const req = request;

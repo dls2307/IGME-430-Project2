@@ -148,7 +148,6 @@ const getSub = (req, res) => {
 };
 
 const deleteAccount = (req, res) => {
-  console.log(req.session.account);
   const filter = {
     _id: req.session.account._id,
   };
