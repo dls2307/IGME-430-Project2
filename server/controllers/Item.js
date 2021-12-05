@@ -39,6 +39,7 @@ const pullCharacter = (req, res, isFiveStar) => {
   for (let i = 0; i < results.length; i++) {
     if (results[i].name === itemData.name) {
       dupeCheck = true;
+      return;
     }
   }
 
@@ -46,7 +47,6 @@ const pullCharacter = (req, res, isFiveStar) => {
   console.log('');
 
   if (dupeCheck === false) {
-    console.log('Clean!');
     results.push(itemData);
   }
 
@@ -203,6 +203,21 @@ const getItems = (request, response) => {
   });
 };
 
+const deleteInventory = (req, res) => {
+  const filter = {
+    username: req.session.account,
+  };
+
+  return Item.ItemModel.deleteMany(filter, (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+
+    return res.status(200).json({ message: 'Inventory deleted successfully.' });
+  });
+};
+
 const getResults = (req, res) => res.json({ results });
 
 module.exports = {
@@ -214,4 +229,5 @@ module.exports = {
   bannerPage,
   inventoryPage,
   getResults,
+  deleteInventory,
 };

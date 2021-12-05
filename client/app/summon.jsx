@@ -1,20 +1,3 @@
-// Banner creations
-/*const BannerWindow = (props) => {
-    return (
-        <form id="bannerForm"
-            name="bannerForm"
-            action="/summon"
-            method="POST"
-            className="mainForm"
-            >
-            <h3>{props.bannerTitle}</h3>
-            <p>{props.bannerDescription}</p>
-            <input id="singleSum" type="button" onClick={singleSummon}>Summon Once</input>
-            <input id="tenfoldSum" type="button" onClick={tenfoldSummon}>Summon Ten Times</input>
-        </form>
-    );
-};*/
-
 const ResultsWindow = (props) => {
     if (props.results.results.length === 0) {
         return (

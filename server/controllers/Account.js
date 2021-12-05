@@ -133,16 +133,14 @@ const changePassword = (request, response) => {
 
 // Changes the user's subscription-status
 const subscribe = (req, res) => {
-  const currentAccount = req.session.account;
-  const newState = !currentAccount.subscribed;
-
+  const newState = !req.session.account.subscribed;
+  console.log(req.session.account.subscribed);
   const filter = {
-    username: currentAccount.username,
+    _id: req.session.account._id,
   };
 
-  Account.AccountModel.updateOne(filter, { subscribed: newState }, (err) => {
+  return Account.AccountModel.updateOne(filter, { $set: { subscribed: newState } }, (err) => {
     if (err) {
-      // console.log('ERROR');
       return res.status(400).json({ error: 'An error occurred' });
     }
     return res.status(200).json({ redirect: '/settings' });
@@ -156,6 +154,23 @@ const getSub = (req, res) => {
   return res.json({ subscribed: subscriptionStatus });
 };
 
+const deleteAccount = (req, res) => {
+  console.log(req.session.account);
+  const filter = {
+    _id: req.session.account._id,
+  };
+  return Account.AccountModel.deleteOne(filter, (err, docs) => {
+    if (err) {
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+    if (docs) {
+      console.log(docs);
+    }
+    req.session.destroy();
+    return res.status(200).json({ redirect: '/' });
+  });
+};
+
 module.exports = {
   loginPage,
   logout,
@@ -166,4 +181,5 @@ module.exports = {
   subscribe,
   getSub,
   settingsPage,
+  deleteAccount,
 };
