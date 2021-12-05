@@ -6,7 +6,7 @@ const handleSubscribe = (e) => {
 
 const handleDeleteInventory = (e)=>{
     e.preventDefault();
-    sendAjax('DELETE',$("#deleteInventoryForm").attr("action"),$("#deleteInventoryForm").serialize(),handleError);
+    sendAjax('DELETE',$("#deleteInventoryForm").attr("action"),$("#deleteInventoryForm").serialize(),handleJSON);
     return false;
 }
 
@@ -41,11 +41,11 @@ const SettingsWindow = (props) => {
             action="/deleteInventory"
             method="DELETE"
             >
-            <label htmlFor="Banner Name">Account Settings</label>
+            <label htmlFor="Banner Name">Delete Inventory</label>
             <br />
             <p>Delete your inventory.</p>
             <input type="hidden" name="_csrf" value={props.csrf}/>
-            <input className="btn btn-primary" type="submit" value={btnText} />
+            <input className="btn btn-primary" type="submit" value="Delete Inventory" />
         </form>
         <form id="deleteAccountForm" 
             name="deleteAccountForm"
@@ -53,11 +53,11 @@ const SettingsWindow = (props) => {
             action="/deleteAccount"
             method="DELETE"
             >
-            <label htmlFor="Banner Name">Account Settings</label>
+            <label htmlFor="Banner Name">Delete Account</label>
             <br />
             <p>Delete your account.</p>
             <input type="hidden" name="_csrf" value={props.csrf}/>
-            <input className="btn btn-primary" type="submit" value={btnText} />
+            <input className="btn btn-primary" type="submit" value="Delete Account" />
         </form>
     </div>
     );

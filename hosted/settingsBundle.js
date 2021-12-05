@@ -8,7 +8,7 @@ var handleSubscribe = function handleSubscribe(e) {
 
 var handleDeleteInventory = function handleDeleteInventory(e) {
   e.preventDefault();
-  sendAjax('DELETE', $("#deleteInventoryForm").attr("action"), $("#deleteInventoryForm").serialize(), handleError);
+  sendAjax('DELETE', $("#deleteInventoryForm").attr("action"), $("#deleteInventoryForm").serialize(), handleJSON);
   return false;
 };
 
@@ -47,14 +47,14 @@ var SettingsWindow = function SettingsWindow(props) {
     method: "DELETE"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "Banner Name"
-  }, "Account Settings"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("p", null, "Delete your inventory."), /*#__PURE__*/React.createElement("input", {
+  }, "Delete Inventory"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("p", null, "Delete your inventory."), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
     className: "btn btn-primary",
     type: "submit",
-    value: btnText
+    value: "Delete Inventory"
   })), /*#__PURE__*/React.createElement("form", {
     id: "deleteAccountForm",
     name: "deleteAccountForm",
@@ -63,14 +63,14 @@ var SettingsWindow = function SettingsWindow(props) {
     method: "DELETE"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "Banner Name"
-  }, "Account Settings"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("p", null, "Delete your account."), /*#__PURE__*/React.createElement("input", {
+  }, "Delete Account"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("p", null, "Delete your account."), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
     className: "btn btn-primary",
     type: "submit",
-    value: btnText
+    value: "Delete Account"
   })));
 };
 
@@ -108,6 +108,10 @@ var handleError = function handleError(message) {
   $("#errorHandling").text(message);
 };
 
+var handleJSON = function handleJSON(jsonObject) {
+  $("#errorHandling").text(jsonObject.message);
+};
+
 var redirect = function redirect(response) {
   window.location = response.redirect;
 };
@@ -141,7 +145,7 @@ var handlePassChange = function handlePassChange(e) {
     return false;
   }
 
-  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize());
+  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleError, redirect);
   return false;
 };
 

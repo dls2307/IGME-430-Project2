@@ -1,22 +1,5 @@
 "use strict";
 
-// Banner creations
-
-/*const BannerWindow = (props) => {
-    return (
-        <form id="bannerForm"
-            name="bannerForm"
-            action="/summon"
-            method="POST"
-            className="mainForm"
-            >
-            <h3>{props.bannerTitle}</h3>
-            <p>{props.bannerDescription}</p>
-            <input id="singleSum" type="button" onClick={singleSummon}>Summon Once</input>
-            <input id="tenfoldSum" type="button" onClick={tenfoldSummon}>Summon Ten Times</input>
-        </form>
-    );
-};*/
 var ResultsWindow = function ResultsWindow(props) {
   if (props.results.results.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
@@ -160,6 +143,10 @@ var handleError = function handleError(message) {
   $("#errorHandling").text(message);
 };
 
+var handleJSON = function handleJSON(jsonObject) {
+  $("#errorHandling").text(jsonObject.message);
+};
+
 var redirect = function redirect(response) {
   window.location = response.redirect;
 };
@@ -193,7 +180,7 @@ var handlePassChange = function handlePassChange(e) {
     return false;
   }
 
-  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize());
+  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleError, redirect);
   return false;
 };
 

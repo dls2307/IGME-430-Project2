@@ -100,6 +100,10 @@ var handleError = function handleError(message) {
   $("#errorHandling").text(message);
 };
 
+var handleJSON = function handleJSON(jsonObject) {
+  $("#errorHandling").text(jsonObject.message);
+};
+
 var redirect = function redirect(response) {
   window.location = response.redirect;
 };
@@ -133,7 +137,7 @@ var handlePassChange = function handlePassChange(e) {
     return false;
   }
 
-  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize());
+  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleError, redirect);
   return false;
 };
 
