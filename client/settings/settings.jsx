@@ -1,5 +1,5 @@
 const handleSubscribe = (e) => {
-
+    
 };
 
 const SettingsWindow = (props) => {
