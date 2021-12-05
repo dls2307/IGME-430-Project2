@@ -6,6 +6,18 @@ var handleSubscribe = function handleSubscribe(e) {
   return false;
 };
 
+var handleDeleteInventory = function handleDeleteInventory(e) {
+  e.preventDefault();
+  sendAjax('DELETE', $("#deleteInventoryForm").attr("action"), $("#deleteInventoryForm").serialize(), handleError);
+  return false;
+};
+
+var handleDeleteAccount = function handleDeleteAccount(e) {
+  e.preventDefault();
+  sendAjax('DELETE', $("#deleteAccountForm").attr("action"), $("#deleteAccountForm").serialize(), redirect);
+  return false;
+};
+
 var SettingsWindow = function SettingsWindow(props) {
   var btnText = "";
   if (props.isSubscribed === true) btnText = "Unsubscribe";else btnText = "Subscribe";
@@ -20,6 +32,38 @@ var SettingsWindow = function SettingsWindow(props) {
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "Banner Name"
   }, "Account Settings"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("p", null, "Subscribe to increase your chances for rarer and more powerful characters!"), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "btn btn-primary",
+    type: "submit",
+    value: btnText
+  })), /*#__PURE__*/React.createElement("form", {
+    id: "deleteInventoryForm",
+    name: "deleteInventoryForm",
+    onSubmit: handleDeleteInventory,
+    action: "/deleteInventory",
+    method: "DELETE"
+  }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Banner Name"
+  }, "Account Settings"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("p", null, "Delete your inventory."), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "btn btn-primary",
+    type: "submit",
+    value: btnText
+  })), /*#__PURE__*/React.createElement("form", {
+    id: "deleteAccountForm",
+    name: "deleteAccountForm",
+    onSubmit: handleDeleteAccount,
+    action: "/deleteAccount",
+    method: "DELETE"
+  }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Banner Name"
+  }, "Account Settings"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("p", null, "Delete your account."), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf

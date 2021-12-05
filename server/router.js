@@ -18,6 +18,8 @@ const router = (app) => {
   app.post('/subscribe', mid.requiresLogin, controllers.Account.subscribe);
   app.post('/passChange', mid.requiresLogin, controllers.Account.changePassword);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
+  app.delete('/deleteInventory', mid.requiresLogin, controllers.Item.deleteInventory);
+  app.delete('/deleteAccount', mid.requiresLogin, controllers.Account.deleteAccount);
 };
 
 module.exports = router;

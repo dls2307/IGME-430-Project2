@@ -163,6 +163,21 @@ const getItems = (request, response) => {
   });
 };
 
+const deleteInventory = (req, res) => {
+  const filter = {
+    username: req.session.account,
+  };
+
+  return Item.ItemModel.deleteMany(filter, (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+
+    return res.status(200).json({ message: 'Inventory deleted successfully.' });
+  });
+};
+
 const getResults = (req, res) => res.json({ results });
 
 module.exports = {
@@ -174,4 +189,5 @@ module.exports = {
   bannerPage,
   inventoryPage,
   getResults,
+  deleteInventory,
 };
