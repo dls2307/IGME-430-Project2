@@ -116,7 +116,7 @@ const changePassword = (request, response) => {
 
   return Account.AccountModel.authenticate(username, req.body.oldPass, (err, account) => {
     if (err || !account) {
-      return res.status(401).json({ error: 'Error. Wrong username or password' });
+      return res.status(401).json({ error: 'Error. Incorrect password' });
     }
 
     return Account.AccountModel.generateHash(req.body.pass2, (salt, hash) => {
@@ -125,25 +125,19 @@ const changePassword = (request, response) => {
         if (othererr) {
           return res.status(400).json({ error: 'An error occurred' });
         }
-        return res.status(200).json({ redirect: '/', message: 'Password updated.' });
+        return res.status(200).json({ message: 'Password updated.' });
       });
     });
   });
 };
 
 // Changes the user's subscription-status
-const subscribe = (req, res) => {
-  const newState = !req.session.account.subscribed;
-  const filter = {
-    _id: req.session.account._id,
-  };
+const subscribe = (request, response) => {
+  const req = request;
+  const res = response;
 
-  return Account.AccountModel.updateOne(filter, { $set: { subscribed: newState } }, (err) => {
-    if (err) {
-      return res.status(400).json({ error: 'An error occurred' });
-    }
-    return res.status(200).json({ redirect: '/settings' });
-  });
+  req.session.account.subscribed = !req.session.account.subscribed;
+  return res.status(200).json({ redirect: '/settings' });
 };
 
 // Returns if the user is subscribed or not.

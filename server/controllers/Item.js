@@ -42,9 +42,6 @@ const pullCharacter = (req, res, isFiveStar) => {
     }
   }
 
-  console.log(results.length);
-  console.log('');
-
   if (dupeCheck === false) {
     results.push(itemData);
   }
@@ -89,11 +86,9 @@ const pullWeapon = (req, res, isFiveStar) => {
   while (itemData.rarity !== desiredRarity) {
     const weaponName = weaponList[Math.floor(Math.random() * weaponList.length)];
     const genshinItem = genshin.weapons(weaponName);
-    // console.log(itemData.rarity);
     itemData = {
       name: genshinItem.name,
       rarity: genshinItem.rarity,
-      element: genshinItem.element,
       weaponType: genshinItem.weapontype,
       quantity: 1,
       image: genshinItem.images.icon,
@@ -148,8 +143,10 @@ const pullCharacterBanner = (req, res) => {
   results = [];
 
   const isSubbed = req.session.account.subscribed;
-  let pullRate = 6;
-  if (isSubbed === true) pullRate = 12;
+  let pullRate = 100;
+  if (isSubbed === true){
+    pullRate = 1000;
+  } 
   // If the resultNum is lower than 6, then it's a 5-star. The rate is doubled if-subscribed.
   const resultNum = Math.floor(Math.random() * 1000);
 
@@ -160,6 +157,9 @@ const pullCharacterBanner = (req, res) => {
 
   while (results.length < 10) {
     pullCharacter(req, res, isFiveStar);
+    if(isFiveStar){
+      isFiveStar=!isFiveStar;
+    }
   }
 
   return res.status(200).json({ redirect: '/' });
@@ -169,8 +169,8 @@ const pullWeaponBanner = (req, res) => {
   results = [];
 
   const isSubbed = req.session.account.subscribed;
-  let pullRate = 6;
-  if (isSubbed === true) pullRate = 12;
+  let pullRate = 100;
+  if (isSubbed === true) pullRate = 1000;
   // If the resultNum is lower than 6, then it's a 5-star. The rate is doubled if-subscribed.
   const resultNum = Math.floor(Math.random() * 1000);
 
@@ -181,6 +181,9 @@ const pullWeaponBanner = (req, res) => {
 
   while (results.length < 10) {
     pullWeapon(req, res, isFiveStar);
+    if(isFiveStar){
+      isFiveStar=!isFiveStar;
+    }
   }
 
   return res.status(200).json({ redirect: '/' });

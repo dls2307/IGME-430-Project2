@@ -1,9 +1,13 @@
 const handleError = (message) => {
-    $("#errorHandling").text(message);
+    if(typeof message === "string"){
+        $("#errorHandling").text(message);
+    }
 };
 
 const handleJSON = (jsonObject)=>{
-    $("#errorHandling").text(jsonObject.message);
+    if(jsonObject.message){
+        $("#errorHandling").text(jsonObject.message);
+    }
 }
 
 const redirect = (response) => {
@@ -39,7 +43,7 @@ const handlePassChange = (e) => {
         return false;
     }
 
-    sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleError, redirect);
+    sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleJSON, handleError);
     return false;
 };
 
