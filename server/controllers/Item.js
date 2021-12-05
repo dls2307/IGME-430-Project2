@@ -25,10 +25,18 @@ const pullCharacter = (req, res, characterName) => {
     owner: req.session.account._id,
   };
 
-  if (results.includes(itemData) === false) {
+  let dupeCheck = false;
+
+  for (let i = 0; i < results.length; i++) {
+    if (results[i].name === itemData.name) {
+      dupeCheck = true;
+    }
+  }
+
+  if (dupeCheck === false) {
+    console.log('Clean!');
     results.push(itemData);
   }
-  
 
   const filter = {
     name: itemData.name,
@@ -74,8 +82,17 @@ const pullWeapon = (req, res, weaponName) => {
     owner: req.session.account._id,
   };
 
+  let dupeCheck = false;
 
-  results.push(itemData);
+  for (let i = 0; i < results.length; i++) {
+    if (results[i].name === itemData.name) {
+      dupeCheck = true;
+    }
+  }
+
+  if (dupeCheck === false) {
+    results.push(itemData);
+  }
 
   const filter = {
     name: itemData.name,
@@ -111,15 +128,10 @@ const pullCharacterBanner = (req, res) => {
   results = [];
   const characterList = genshin.characters('names', { matchCategories: true });
 
-  let acceptedCharacters = 0;
-  let isSubbed = req.session.account.subscribed;
+  // const acceptedCharacters = 0;
+  // const isSubbed = req.session.account.subscribed;
 
   while (results.length < 10) {
-    pullCharacter(req, res, characterList[Math.floor(Math.randiom() * characterList.length)]);
-  }
-
-  for (let i = 0; i < 10; i++) {
-
     pullCharacter(req, res, characterList[Math.floor(Math.random() * characterList.length)]);
   }
 
@@ -129,7 +141,8 @@ const pullCharacterBanner = (req, res) => {
 const pullWeaponBanner = (req, res) => {
   results = [];
   const weaponList = genshin.weapons('names', { matchCategories: true });
-  for (let i = 0; i < 10; i++) {
+
+  while (results.length < 10) {
     pullWeapon(req, res, weaponList[Math.floor(Math.random() * weaponList.length)]);
   }
 
