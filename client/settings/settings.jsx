@@ -1,6 +1,6 @@
 const handleSubscribe = (e) => {
     e.preventDefault();
-    sendAjax('POST', $("#settingsForm").attr("action"), $("#settingsForm").serialize(), createSettingsWindow);
+    sendAjax('POST', $("#settingsForm").attr("action"), $("#settingsForm").serialize(), redirect);
     return false;
 };
 

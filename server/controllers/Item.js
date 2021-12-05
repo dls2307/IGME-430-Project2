@@ -143,8 +143,10 @@ const pullCharacterBanner = (req, res) => {
   results = [];
 
   const isSubbed = req.session.account.subscribed;
-  let pullRate = 6;
-  if (isSubbed === true) pullRate = 12;
+  let pullRate = 100;
+  if (isSubbed === true){
+    pullRate = 1000;
+  } 
   // If the resultNum is lower than 6, then it's a 5-star. The rate is doubled if-subscribed.
   const resultNum = Math.floor(Math.random() * 1000);
 
@@ -155,6 +157,9 @@ const pullCharacterBanner = (req, res) => {
 
   while (results.length < 10) {
     pullCharacter(req, res, isFiveStar);
+    if(isFiveStar){
+      isFiveStar=!isFiveStar;
+    }
   }
 
   return res.status(200).json({ redirect: '/' });
@@ -164,8 +169,8 @@ const pullWeaponBanner = (req, res) => {
   results = [];
 
   const isSubbed = req.session.account.subscribed;
-  let pullRate = 6;
-  if (isSubbed === true) pullRate = 12;
+  let pullRate = 100;
+  if (isSubbed === true) pullRate = 1000;
   // If the resultNum is lower than 6, then it's a 5-star. The rate is doubled if-subscribed.
   const resultNum = Math.floor(Math.random() * 1000);
 
@@ -176,6 +181,9 @@ const pullWeaponBanner = (req, res) => {
 
   while (results.length < 10) {
     pullWeapon(req, res, isFiveStar);
+    if(isFiveStar){
+      isFiveStar=!isFiveStar;
+    }
   }
 
   return res.status(200).json({ redirect: '/' });

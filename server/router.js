@@ -20,7 +20,7 @@ const router = (app) => {
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.delete('/deleteInventory', mid.requiresLogin, controllers.Item.deleteInventory);
   app.delete('/deleteAccount', mid.requiresLogin, controllers.Account.deleteAccount);
-  app.get('/*',mid.requiresLogin,controllers.Item.bannerPage);
+  app.get('/*', mid.requiresLogin, controllers.Item.bannerPage);
 };
 
 module.exports = router;
