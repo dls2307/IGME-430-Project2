@@ -42,9 +42,6 @@ const pullCharacter = (req, res, isFiveStar) => {
     }
   }
 
-  console.log(results.length);
-  console.log('');
-
   if (dupeCheck === false) {
     results.push(itemData);
   }
@@ -80,20 +77,18 @@ const pullCharacter = (req, res, isFiveStar) => {
 };
 
 const pullWeapon = (req, res, isFiveStar) => {
-  const characterList = genshin.characters('names', { matchCategories: true });
+  const weaponList = genshin.weapons('names', { matchCategories: true });
   let desiredRarity = '4';
   if (isFiveStar) desiredRarity = '5';
 
   let itemData = {};
 
   while (itemData.rarity !== desiredRarity) {
-    const characterName = characterList[Math.floor(Math.random() * characterList.length)];
-    const genshinItem = genshin.characters(characterName);
-    // console.log(itemData.rarity);
+    const weaponName = weaponList[Math.floor(Math.random() * weaponList.length)];
+    const genshinItem = genshin.weapons(weaponName);
     itemData = {
       name: genshinItem.name,
       rarity: genshinItem.rarity,
-      element: genshinItem.element,
       weaponType: genshinItem.weapontype,
       quantity: 1,
       image: genshinItem.images.icon,

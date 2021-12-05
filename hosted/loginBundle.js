@@ -143,11 +143,15 @@ $(document).ready(function () {
 "use strict";
 
 var handleError = function handleError(message) {
-  $("#errorHandling").text(message);
+  if (typeof message === "string") {
+    $("#errorHandling").text(message);
+  }
 };
 
 var handleJSON = function handleJSON(jsonObject) {
-  $("#errorHandling").text(jsonObject.message);
+  if (jsonObject.message) {
+    $("#errorHandling").text(jsonObject.message);
+  }
 };
 
 var redirect = function redirect(response) {
@@ -183,7 +187,7 @@ var handlePassChange = function handlePassChange(e) {
     return false;
   }
 
-  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleError, redirect);
+  sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleJSON, handleError);
   return false;
 };
 

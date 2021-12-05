@@ -116,7 +116,7 @@ const changePassword = (request, response) => {
 
   return Account.AccountModel.authenticate(username, req.body.oldPass, (err, account) => {
     if (err || !account) {
-      return res.status(401).json({ error: 'Error. Wrong username or password' });
+      return res.status(401).json({ error: 'Error. Incorrect password' });
     }
 
     return Account.AccountModel.generateHash(req.body.pass2, (salt, hash) => {
@@ -125,7 +125,7 @@ const changePassword = (request, response) => {
         if (othererr) {
           return res.status(400).json({ error: 'An error occurred' });
         }
-        return res.status(200).json({ redirect: '/', message: 'Password updated.' });
+        return res.status(200).json({ message: 'Password updated.' });
       });
     });
   });
