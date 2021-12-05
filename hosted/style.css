@@ -113,6 +113,7 @@ mainForm input {
 #passSubmit {
     text-align: center;
     margin-left: 42%;
+    margin-top: 15px;
 }
 
 #user:focus, #pass:focus, #pass2:focus {
