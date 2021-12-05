@@ -3,13 +3,18 @@ const models = require('../models');
 
 const { Item } = models;
 
+//Renders banner page
 const bannerPage = (req, res) => {
   res.render('app', { csrfToken: req.csrfToken() });
 };
+
+//Renders inventory page
 const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csrfToken() });
 
 let results = [];
 
+
+//Pulls a random character and stores the result
 const pullCharacter = (req, res, isFiveStar) => {
   const characterList = genshin.characters('names', { matchCategories: true });
   let desiredRarity = '4';
@@ -59,10 +64,6 @@ const pullCharacter = (req, res, isFiveStar) => {
 
       const itemPromise = newItem.save();
 
-      itemPromise.then(() => {
-        // res.status(202).json({ redirect: '/' });
-      });
-
       itemPromise.catch((othererr) => {
         console.log(othererr);
         return res.status(400).json({ error: 'An error occurred' });
@@ -75,6 +76,8 @@ const pullCharacter = (req, res, isFiveStar) => {
   });
 };
 
+
+//Pulls a random weapon and stores the result
 const pullWeapon = (req, res, isFiveStar) => {
   const weaponList = genshin.weapons('names', { matchCategories: true });
   let desiredRarity = '4';
@@ -138,6 +141,8 @@ const pullWeapon = (req, res, isFiveStar) => {
   });
 };
 
+
+//Pulls 10 Characters
 const pullCharacterBanner = (req, res) => {
   results = [];
 
@@ -164,6 +169,8 @@ const pullCharacterBanner = (req, res) => {
   return res.status(200).json({ redirect: '/' });
 };
 
+
+//Pulls 10 Weapons
 const pullWeaponBanner = (req, res) => {
   results = [];
 
@@ -188,6 +195,8 @@ const pullWeaponBanner = (req, res) => {
   return res.status(200).json({ redirect: '/' });
 };
 
+
+//Retrieves all characters from a user
 const getCharacters = (req, res) => {
   const filter = {
     owner: req.session.account._id,
@@ -204,6 +213,7 @@ const getCharacters = (req, res) => {
   });
 };
 
+//Retrieves all weapons from a user
 const getWeapons = (req, res) => {
   const filter = {
     owner: req.session.account._id,
@@ -220,6 +230,8 @@ const getWeapons = (req, res) => {
   });
 };
 
+
+//Retrieves all items from a user
 const getItems = (request, response) => {
   const req = request;
   const res = response;
@@ -234,6 +246,7 @@ const getItems = (request, response) => {
   });
 };
 
+//Deletes a user's inventory
 const deleteInventory = (req, res) => {
   const filter = {
     username: req.session.account,
