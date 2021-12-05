@@ -10,20 +10,29 @@ const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csr
 
 let results = [];
 
-const pullCharacter = (req, res, characterName) => {
-  // TODO: MAKE THIS RANDOMIZED FOR CHARACTERS/WEAPONS, NOT JUST RETURN AMBER
-  const genshinItem = genshin.characters(characterName);
+const pullCharacter = (req, res, isFiveStar) => {
 
-  const itemData = {
-    name: genshinItem.name,
-    rarity: genshinItem.rarity,
-    element: genshinItem.element,
-    weaponType: genshinItem.weapontype,
-    quantity: 1,
-    image: genshinItem.images.icon,
-    type: 0,
-    owner: req.session.account._id,
-  };
+  const characterList = genshin.characters('names', { matchCategories: true });
+  let desiredRarity = '4';
+  if (isFiveStar) desiredRarity = '5';
+
+  let itemData = {};
+
+  while (itemData.rarity !== desiredRarity) {
+    let characterName = characterList[Math.floor(Math.random() * characterList.length)];
+    const genshinItem = genshin.characters(characterName);
+    //console.log(itemData.rarity);
+    itemData = {
+      name: genshinItem.name,
+      rarity: genshinItem.rarity,
+      element: genshinItem.element,
+      weaponType: genshinItem.weapontype,
+      quantity: 1,
+      image: genshinItem.images.icon,
+      type: 0,
+      owner: req.session.account._id,
+    };
+  }
 
   let dupeCheck = false;
 
@@ -32,6 +41,9 @@ const pullCharacter = (req, res, characterName) => {
       dupeCheck = true;
     }
   }
+
+  console.log(results.length);
+  console.log('');
 
   if (dupeCheck === false) {
     console.log('Clean!');
@@ -68,19 +80,29 @@ const pullCharacter = (req, res, characterName) => {
   });
 };
 
-const pullWeapon = (req, res, weaponName) => {
-  // TODO: MAKE THIS RANDOMIZED FOR CHARACTERS/WEAPONS, NOT JUST RETURN AMBER
-  const genshinItem = genshin.weapons(weaponName);
+const pullWeapon = (req, res, isFiveStar) => {
 
-  const itemData = {
-    name: genshinItem.name,
-    rarity: genshinItem.rarity,
-    weaponType: genshinItem.weapontype,
-    quantity: 1,
-    image: genshinItem.images.icon,
-    type: 1,
-    owner: req.session.account._id,
-  };
+  const characterList = genshin.characters('names', { matchCategories: true });
+  let desiredRarity = '4';
+  if (isFiveStar) desiredRarity = '5';
+
+  let itemData = {};
+
+  while (itemData.rarity !== desiredRarity) {
+    let characterName = characterList[Math.floor(Math.random() * characterList.length)];
+    const genshinItem = genshin.characters(characterName);
+    //console.log(itemData.rarity);
+    itemData = {
+      name: genshinItem.name,
+      rarity: genshinItem.rarity,
+      element: genshinItem.element,
+      weaponType: genshinItem.weapontype,
+      quantity: 1,
+      image: genshinItem.images.icon,
+      type: 0,
+      owner: req.session.account._id,
+    };
+  }
 
   let dupeCheck = false;
 
@@ -126,13 +148,21 @@ const pullWeapon = (req, res, weaponName) => {
 
 const pullCharacterBanner = (req, res) => {
   results = [];
-  const characterList = genshin.characters('names', { matchCategories: true });
+  
 
-  // const acceptedCharacters = 0;
-  // const isSubbed = req.session.account.subscribed;
+  const isSubbed = req.session.account.subscribed;
+  let pullRate = 6;
+  if (isSubbed === true) pullRate = 12;
+  // If the resultNum is lower than 6, then it's a 5-star. The rate is doubled if-subscribed.
+  let resultNum = Math.floor(Math.random() * 1000);
+
+  let isFiveStar = false;
+  if (resultNum <= pullRate) {
+    isFiveStar = true;
+  }
 
   while (results.length < 10) {
-    pullCharacter(req, res, characterList[Math.floor(Math.random() * characterList.length)]);
+    pullCharacter(req, res, isFiveStar);
   }
 
   return res.status(200).json({ redirect: '/' });
@@ -140,10 +170,20 @@ const pullCharacterBanner = (req, res) => {
 
 const pullWeaponBanner = (req, res) => {
   results = [];
-  const weaponList = genshin.weapons('names', { matchCategories: true });
+  
+  const isSubbed = req.session.account.subscribed;
+  let pullRate = 6;
+  if (isSubbed === true) pullRate = 12;
+  // If the resultNum is lower than 6, then it's a 5-star. The rate is doubled if-subscribed.
+  let resultNum = Math.floor(Math.random() * 1000);
+
+  let isFiveStar = false;
+  if (resultNum <= pullRate) {
+    isFiveStar = true;
+  }
 
   while (results.length < 10) {
-    pullWeapon(req, res, weaponList[Math.floor(Math.random() * weaponList.length)]);
+    pullWeapon(req, res, isFiveStar);
   }
 
   return res.status(200).json({ redirect: '/' });
