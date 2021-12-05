@@ -80,15 +80,15 @@ const pullCharacter = (req, res, isFiveStar) => {
 };
 
 const pullWeapon = (req, res, isFiveStar) => {
-  const characterList = genshin.characters('names', { matchCategories: true });
+  const weaponList = genshin.weapons('names', { matchCategories: true });
   let desiredRarity = '4';
   if (isFiveStar) desiredRarity = '5';
 
   let itemData = {};
 
   while (itemData.rarity !== desiredRarity) {
-    const characterName = characterList[Math.floor(Math.random() * characterList.length)];
-    const genshinItem = genshin.characters(characterName);
+    const weaponName = weaponList[Math.floor(Math.random() * weaponList.length)];
+    const genshinItem = genshin.weapons(weaponName);
     // console.log(itemData.rarity);
     itemData = {
       name: genshinItem.name,
