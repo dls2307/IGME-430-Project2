@@ -145,11 +145,8 @@ const subscribe = (req, res) => {
       // console.log('ERROR');
       return res.status(400).json({ error: 'An error occurred' });
     }
-
     return res.status(200).json({ redirect: '/settings' });
   });
-
-  // return res.status(200).json({ redirect: '/settings' });
 };
 
 // Returns if the user is subscribed or not.
@@ -157,10 +154,6 @@ const getSub = (req, res) => {
   const subscriptionStatus = req.session.account.subscribed;
 
   return res.json({ subscribed: subscriptionStatus });
-};
-
-const getStyle = (req, res) => {
-
 };
 
 module.exports = {
@@ -173,5 +166,4 @@ module.exports = {
   subscribe,
   getSub,
   settingsPage,
-  getStyle,
 };

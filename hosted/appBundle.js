@@ -58,13 +58,13 @@ var createResultsWindow = function createResultsWindow(input) {
 
 var handleCharacterSummon = function handleCharacterSummon(e) {
   e.preventDefault();
-  sendAjax('GET', $("#characterBannerForm").attr("action"), redirect);
+  sendAjax('GET', $("#characterBannerForm").attr("action"), $("#characterBannerForm").serialize(), redirect);
   return false;
 };
 
 var handleWeaponSummon = function handleWeaponSummon(e) {
   e.preventDefault();
-  sendAjax('GET', $("#weaponBannerForm").attr("action"), redirect);
+  sendAjax('GET', $("#weaponBannerForm").attr("action"), $("#weaponBannerForm").serialize(), redirect);
   return false;
 };
 

@@ -55,13 +55,13 @@ const createResultsWindow = (input) => {
 // Tells the server that the user is summoning, and gives them the number of summons to perform.
 const handleCharacterSummon = (e) => {
     e.preventDefault();
-    sendAjax('GET', $("#characterBannerForm").attr("action"), redirect);
+    sendAjax('GET', $("#characterBannerForm").attr("action"), $("#characterBannerForm").serialize(), redirect);
     return false;
 };
 
 const handleWeaponSummon = (e) => {
     e.preventDefault();
-    sendAjax('GET', $("#weaponBannerForm").attr("action"), redirect);
+    sendAjax('GET', $("#weaponBannerForm").attr("action"), $("#weaponBannerForm").serialize(), redirect);
     return false;
 };
 

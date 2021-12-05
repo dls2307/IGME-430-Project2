@@ -2,6 +2,8 @@
 
 var handleSubscribe = function handleSubscribe(e) {
   e.preventDefault();
+  sendAjax('POST', $("#settingsForm").attr("action"), $("#settingsForm").serialize(), redirect);
+  return false;
 };
 
 var SettingsWindow = function SettingsWindow(props) {
