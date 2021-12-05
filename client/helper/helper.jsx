@@ -1,19 +1,23 @@
+//Handle Error messages
 const handleError = (message) => {
     if(typeof message === "string"){
         $("#errorHandling").text(message);
     }
 };
 
+//Handle JSON messages
 const handleJSON = (jsonObject)=>{
     if(jsonObject.message){
         $("#errorHandling").text(jsonObject.message);
     }
 }
 
+//Handle redirects
 const redirect = (response) => {
     window.location = response.redirect;
 };
 
+//Server calls
 const sendAjax = (type, action, data, success) => {
     $.ajax({
         cashe: false,
@@ -47,6 +51,7 @@ const handlePassChange = (e) => {
     return false;
 };
 
+//Pass Change Window Info
 const PassChangeWindow = (props) => {
     return (
         <form id="passChangeForm"
@@ -54,20 +59,21 @@ const PassChangeWindow = (props) => {
               onSubmit={handlePassChange}
               action="/passChange"
               method="POST"
-              className="mainForm"
+              className="mainForm form-group"
               >
               <label htmlFor="oldPass">Old password: </label>
-              <input id="oldPass" type="password" name="oldPass" placeholder="old password"/>
+              <input id="oldPass" type="password" className="form-control" name="oldPass" placeholder="old password"/>
               <label htmlFor="pass">New Password: </label>
-              <input id="pass" type="password" name="pass" placeholder="new password"/>
+              <input id="pass" type="password" className="form-control" name="pass" placeholder="new password"/>
               <label htmlFor="pass2">Retype New Password: </label>
-              <input id="pass2" type="password" name="pass2" placeholder="retype new password"/>
+              <input id="pass2" type="password" className="form-control" name="pass2" placeholder="retype new password"/>
               <input type="hidden" name="_csrf" value={props.csrf}/>
-              <input className="formSubmit" type="submit" value="Change Password" />
+              <input id="passSubmit" className="btn btn-primary" type="submit" value="Change Password" />
         </form>
     );
 };
 
+//Render Pass Change window
 const createPassChangeWindow = (csrf) => {
     ReactDOM.render(
         <PassChangeWindow csrf={csrf} />,

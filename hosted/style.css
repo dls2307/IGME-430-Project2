@@ -61,10 +61,19 @@ nav:nth-child(1) {
 
 .mainForm label {
     display: inline-block;
-    width: 100px;
+    width: 100%;
     margin-right: 10px;
-    text-align: right;
+    text-align: center;
     font-size: 1.2em;
+}
+
+#passChangeForm {
+    width: 50%;
+    padding-top: 50px;
+}
+
+mainForm input {
+    display: inline-block;
 }
 
 .formSubmit {
@@ -92,11 +101,19 @@ nav:nth-child(1) {
     background-color: #338acc;
 }
 
-#user, #pass, #pass2 {
+#user, #pass, #pass2, #oldPass {
     text-align: center;
     font-size: 1.1em;
-    width: 180px;
+    width: 33%;
     border-radius: 6px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#passSubmit {
+    text-align: center;
+    margin-left: 42%;
+    margin-top: 15px;
 }
 
 #user:focus, #pass:focus, #pass2:focus {
@@ -117,8 +134,14 @@ nav:nth-child(1) {
     font-style: italic;
 }
 
+#characters, #weapons {
+    width: 50%;
+    display: inline-block;
+}
+
 .character, .weapon {
-    width: 20%;
+    font-size: 10px;
+    width: 40%;
     display: inline-block;
     margin: 5px;
 }
@@ -144,4 +167,11 @@ nav:nth-child(1) {
 
 form img {
     max-width: 15%;
+<<<<<<< HEAD
+=======
+}
+
+#errorHandling {
+    text-align: center;
+>>>>>>> 83eb156f1292da4778690688dfbbe7acd96925cf
 }

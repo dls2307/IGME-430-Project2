@@ -3,13 +3,18 @@ const models = require('../models');
 
 const { Item } = models;
 
+//Renders banner page
 const bannerPage = (req, res) => {
   res.render('app', { csrfToken: req.csrfToken() });
 };
+
+//Renders inventory page
 const inventoryPage = (req, res) => res.render('inventory', { csrfToken: req.csrfToken() });
 
 let results = [];
 
+
+//Pulls a random character and stores the result
 const pullCharacter = (req, res, isFiveStar) => {
   const characterList = genshin.characters('names', { matchCategories: true });
   let desiredRarity = '4';
@@ -20,7 +25,6 @@ const pullCharacter = (req, res, isFiveStar) => {
   while (itemData.rarity !== desiredRarity) {
     const characterName = characterList[Math.floor(Math.random() * characterList.length)];
     const genshinItem = genshin.characters(characterName);
-    // console.log(itemData.rarity);
     itemData = {
       name: genshinItem.name,
       rarity: genshinItem.rarity,
@@ -60,10 +64,6 @@ const pullCharacter = (req, res, isFiveStar) => {
 
       const itemPromise = newItem.save();
 
-      itemPromise.then(() => {
-        // res.status(202).json({ redirect: '/' });
-      });
-
       itemPromise.catch((othererr) => {
         console.log(othererr);
         return res.status(400).json({ error: 'An error occurred' });
@@ -76,6 +76,8 @@ const pullCharacter = (req, res, isFiveStar) => {
   });
 };
 
+
+//Pulls a random weapon and stores the result
 const pullWeapon = (req, res, isFiveStar) => {
   const weaponList = genshin.weapons('names', { matchCategories: true });
   let desiredRarity = '4';
@@ -92,7 +94,7 @@ const pullWeapon = (req, res, isFiveStar) => {
       weaponType: genshinItem.weapontype,
       quantity: 1,
       image: genshinItem.images.icon,
-      type: 0,
+      type: 1,
       owner: req.session.account._id,
     };
   }
@@ -139,14 +141,16 @@ const pullWeapon = (req, res, isFiveStar) => {
   });
 };
 
+
+//Pulls 10 Characters
 const pullCharacterBanner = (req, res) => {
   results = [];
 
   const isSubbed = req.session.account.subscribed;
   let pullRate = 100;
-  if (isSubbed === true){
+  if (isSubbed === true) {
     pullRate = 1000;
-  } 
+  }
   // If the resultNum is lower than 6, then it's a 5-star. The rate is doubled if-subscribed.
   const resultNum = Math.floor(Math.random() * 1000);
 
@@ -157,14 +161,16 @@ const pullCharacterBanner = (req, res) => {
 
   while (results.length < 10) {
     pullCharacter(req, res, isFiveStar);
-    if(isFiveStar){
-      isFiveStar=!isFiveStar;
+    if (isFiveStar) {
+      isFiveStar = !isFiveStar;
     }
   }
 
   return res.status(200).json({ redirect: '/' });
 };
 
+
+//Pulls 10 Weapons
 const pullWeaponBanner = (req, res) => {
   results = [];
 
@@ -181,14 +187,51 @@ const pullWeaponBanner = (req, res) => {
 
   while (results.length < 10) {
     pullWeapon(req, res, isFiveStar);
-    if(isFiveStar){
-      isFiveStar=!isFiveStar;
+    if (isFiveStar) {
+      isFiveStar = !isFiveStar;
     }
   }
 
   return res.status(200).json({ redirect: '/' });
 };
 
+
+//Retrieves all characters from a user
+const getCharacters = (req, res) => {
+  const filter = {
+    owner: req.session.account._id,
+    type: 0,
+  };
+
+  return Item.ItemModel.find(filter, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+
+    return res.json({ characters: docs });
+  });
+};
+
+//Retrieves all weapons from a user
+const getWeapons = (req, res) => {
+  const filter = {
+    owner: req.session.account._id,
+    type: 1,
+  };
+
+  return Item.ItemModel.find(filter, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+
+    return res.json({ weapons: docs });
+  });
+};
+
+
+//Retrieves all items from a user
 const getItems = (request, response) => {
   const req = request;
   const res = response;
@@ -203,6 +246,7 @@ const getItems = (request, response) => {
   });
 };
 
+//Deletes a user's inventory
 const deleteInventory = (req, res) => {
   const filter = {
     username: req.session.account,
@@ -225,6 +269,8 @@ module.exports = {
   pullCharacterBanner,
   pullWeapon,
   pullWeaponBanner,
+  getCharacters,
+  getWeapons,
   getItems,
   bannerPage,
   inventoryPage,

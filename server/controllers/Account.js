@@ -2,19 +2,23 @@ const models = require('../models');
 
 const { Account } = models;
 
+// Renders login page
 const loginPage = (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 };
 
+// Logs user out
 const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
 };
 
+// Renders settings page
 const settingsPage = (req, res) => {
   res.render('settings', { csrfToken: req.csrfToken() });
 };
 
+// Logs user in if valid info is sent
 const login = (request, response) => {
   const req = request;
   const res = response;
@@ -37,6 +41,7 @@ const login = (request, response) => {
   });
 };
 
+// Retrieves CSRF Token
 const getToken = (request, response) => {
   const req = request;
   const res = response;
@@ -48,6 +53,7 @@ const getToken = (request, response) => {
   res.json(csrfJSON);
 };
 
+// Creates a new account
 const signup = (request, response) => {
   const req = request;
   const res = response;
@@ -92,6 +98,7 @@ const signup = (request, response) => {
   });
 };
 
+// Changes passwords of the user
 const changePassword = (request, response) => {
   const req = request;
   const res = response;
@@ -147,6 +154,7 @@ const getSub = (req, res) => {
   return res.json({ subscribed: subscriptionStatus });
 };
 
+// Deletes the user's account
 const deleteAccount = (req, res) => {
   const filter = {
     _id: req.session.account._id,
