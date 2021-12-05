@@ -1,19 +1,23 @@
+//Handle Error messages
 const handleError = (message) => {
     if(typeof message === "string"){
         $("#errorHandling").text(message);
     }
 };
 
+//Handle JSON messages
 const handleJSON = (jsonObject)=>{
     if(jsonObject.message){
         $("#errorHandling").text(jsonObject.message);
     }
 }
 
+//Handle redirects
 const redirect = (response) => {
     window.location = response.redirect;
 };
 
+//Server calls
 const sendAjax = (type, action, data, success) => {
     $.ajax({
         cashe: false,
@@ -47,6 +51,7 @@ const handlePassChange = (e) => {
     return false;
 };
 
+//Pass Change Window Info
 const PassChangeWindow = (props) => {
     return (
         <form id="passChangeForm"
@@ -68,6 +73,7 @@ const PassChangeWindow = (props) => {
     );
 };
 
+//Render Pass Change window
 const createPassChangeWindow = (csrf) => {
     ReactDOM.render(
         <PassChangeWindow csrf={csrf} />,
