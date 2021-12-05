@@ -25,7 +25,7 @@ const ItemSchema = new mongoose.Schema({
   },
   rarity: {
     type: Number,
-    min: 3,
+    min: 0,
     max: 5,
     required: true,
   },

@@ -1,6 +1,8 @@
 "use strict";
 
-var handleSubscribe = function handleSubscribe(e) {};
+var handleSubscribe = function handleSubscribe(e) {
+  e.preventDefault();
+};
 
 var SettingsWindow = function SettingsWindow(props) {
   var btnText = "";

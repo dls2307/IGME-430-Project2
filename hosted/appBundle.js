@@ -56,8 +56,15 @@ var createResultsWindow = function createResultsWindow(input) {
 }; // Tells the server that the user is summoning, and gives them the number of summons to perform.
 
 
-var handleSummon = function handleSummon(e) {
-  sendAjax('GET', $("#bannerForm").attr("action"), redirect);
+var handleCharacterSummon = function handleCharacterSummon(e) {
+  e.preventDefault();
+  sendAjax('GET', $("#characterBannerForm").attr("action"), redirect);
+  return false;
+};
+
+var handleWeaponSummon = function handleWeaponSummon(e) {
+  e.preventDefault();
+  sendAjax('GET', $("#weaponBannerForm").attr("action"), redirect);
   return false;
 };
 
@@ -65,9 +72,9 @@ var BannerWindow = function BannerWindow(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "card border border-primary bannerCard"
   }, /*#__PURE__*/React.createElement("form", {
-    id: "bannerForm",
+    id: "characterBannerForm",
     name: "bannerForm",
-    onSubmit: handleSummon,
+    onSubmit: handleCharacterSummon,
     action: "/pullCharacter",
     method: "GET"
   }, /*#__PURE__*/React.createElement("label", {
@@ -95,9 +102,9 @@ var BannerWindow = function BannerWindow(props) {
   }))), /*#__PURE__*/React.createElement("div", {
     className: "card border border-primary bannerCard"
   }, /*#__PURE__*/React.createElement("form", {
-    id: "bannerForm",
+    id: "weaponBannerForm",
     name: "bannerForm",
-    onSubmit: handleSummon,
+    onSubmit: handleWeaponSummon,
     action: "/pullWeapon",
     method: "GET"
   }, /*#__PURE__*/React.createElement("label", {

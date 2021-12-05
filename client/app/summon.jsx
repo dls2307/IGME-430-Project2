@@ -53,8 +53,15 @@ const createResultsWindow = (input) => {
 };
 
 // Tells the server that the user is summoning, and gives them the number of summons to perform.
-const handleSummon = (e) => {
-    sendAjax('GET', $("#bannerForm").attr("action"), redirect);
+const handleCharacterSummon = (e) => {
+    e.preventDefault();
+    sendAjax('GET', $("#characterBannerForm").attr("action"), redirect);
+    return false;
+};
+
+const handleWeaponSummon = (e) => {
+    e.preventDefault();
+    sendAjax('GET', $("#weaponBannerForm").attr("action"), redirect);
     return false;
 };
 
@@ -62,9 +69,9 @@ const BannerWindow = (props) =>{
     return (
         <div>
             <div className="card border border-primary bannerCard">
-                <form id="bannerForm" 
+                <form id="characterBannerForm" 
                     name="bannerForm"
-                    onSubmit={handleSummon}
+                    onSubmit={handleCharacterSummon}
                     action="/pullCharacter"
                     method="GET"
                     >
@@ -78,9 +85,9 @@ const BannerWindow = (props) =>{
                 </form>
             </div>
             <div className="card border border-primary bannerCard">
-                <form id="bannerForm" 
+                <form id="weaponBannerForm" 
                     name="bannerForm"
-                    onSubmit={handleSummon}
+                    onSubmit={handleWeaponSummon}
                     action="/pullWeapon"
                     method="GET"
                     >

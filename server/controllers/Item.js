@@ -110,7 +110,7 @@ const pullCharacterBanner = (req, res) => {
     pullCharacter(req, res, characterList[Math.floor(Math.random() * characterList.length)]);
   }
 
-  return res.status(200);
+  return res.status(200).json({ redirect: '/' });
 };
 
 const pullWeaponBanner = (req, res) => {

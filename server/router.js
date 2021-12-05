@@ -17,6 +17,7 @@ const router = (app) => {
   app.get('/getSub', mid.requiresLogin, controllers.Account.getSub);
   app.post('/subscribe', mid.requiresLogin, controllers.Account.subscribe);
   app.post('/passChange', mid.requiresLogin, controllers.Account.changePassword);
+  app.get('/style', controllers.Account.getStyle);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 
