@@ -104,21 +104,25 @@ $(document).ready(function () {
 });
 "use strict";
 
+//Handle Error messages
 var handleError = function handleError(message) {
   if (typeof message === "string") {
     $("#errorHandling").text(message);
   }
-};
+}; //Handle JSON messages
+
 
 var handleJSON = function handleJSON(jsonObject) {
   if (jsonObject.message) {
     $("#errorHandling").text(jsonObject.message);
   }
-};
+}; //Handle redirects
+
 
 var redirect = function redirect(response) {
   window.location = response.redirect;
-};
+}; //Server calls
+
 
 var sendAjax = function sendAjax(type, action, data, success) {
   $.ajax({
@@ -151,7 +155,8 @@ var handlePassChange = function handlePassChange(e) {
 
   sendAjax('POST', $("#passChangeForm").attr("action"), $("#passChangeForm").serialize(), handleJSON, handleError);
   return false;
-};
+}; //Pass Change Window Info
+
 
 var PassChangeWindow = function PassChangeWindow(props) {
   return /*#__PURE__*/React.createElement("form", {
@@ -195,7 +200,8 @@ var PassChangeWindow = function PassChangeWindow(props) {
     type: "submit",
     value: "Change Password"
   }));
-};
+}; //Render Pass Change window
+
 
 var createPassChangeWindow = function createPassChangeWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(PassChangeWindow, {

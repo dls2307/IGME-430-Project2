@@ -170,5 +170,9 @@ form img {
 }
 
 #errorHandling {
+    font-size: 2rem;
     text-align: center;
+    display: inline;
+    margin-left: 42%;
+    margin-right: 40%;
 }
