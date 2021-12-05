@@ -167,3 +167,7 @@ mainForm input {
 form img {
     max-width: 15%;
 }
+
+#errorHandling {
+    text-align: center;
+}
