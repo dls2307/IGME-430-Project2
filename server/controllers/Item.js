@@ -25,7 +25,10 @@ const pullCharacter = (req, res, characterName) => {
     owner: req.session.account._id,
   };
 
-  results.push(itemData);
+  if (results.includes(itemData) === false) {
+    results.push(itemData);
+  }
+  
 
   const filter = {
     name: itemData.name,
@@ -71,6 +74,7 @@ const pullWeapon = (req, res, weaponName) => {
     owner: req.session.account._id,
   };
 
+
   results.push(itemData);
 
   const filter = {
@@ -106,7 +110,16 @@ const pullWeapon = (req, res, weaponName) => {
 const pullCharacterBanner = (req, res) => {
   results = [];
   const characterList = genshin.characters('names', { matchCategories: true });
+
+  let acceptedCharacters = 0;
+  let isSubbed = req.session.account.subscribed;
+
+  while (results.length < 10) {
+    pullCharacter(req, res, characterList[Math.floor(Math.randiom() * characterList.length)]);
+  }
+
   for (let i = 0; i < 10; i++) {
+
     pullCharacter(req, res, characterList[Math.floor(Math.random() * characterList.length)]);
   }
 
