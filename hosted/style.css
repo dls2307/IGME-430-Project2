@@ -167,11 +167,12 @@ mainForm input {
 
 form img {
     max-width: 15%;
-<<<<<<< HEAD
-=======
 }
 
 #errorHandling {
+    font-size: 2rem;
     text-align: center;
->>>>>>> 83eb156f1292da4778690688dfbbe7acd96925cf
+    display: inline;
+    margin-left: 42%;
+    margin-right: 40%;
 }
